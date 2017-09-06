@@ -1,0 +1,29 @@
+<!--<%@ page contentType="text/html;charset=UTF-8" language="java" %>-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>jQuery UI 自动完成（Autocomplete） - 默认功能</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.autocomplete.js"></script>
+    <link rel="stylesheet" href="css/jquery.autocomplete.css" type="text/css">
+    <script type="text/javascript">
+
+
+        function test() {
+            var value = "";
+            var input = $("#autocomplete").val();
+            //alert(input);
+            value+=input;
+            var str = $("#city").html(value);
+
+        }
+
+    </script>
+</head>
+<body>
+
+<div id="city"></div>
+
+<span><input type="text" id="autocomplete" value="请输入搜索词" name="name"/><input type="button" onclick="test();" value="添加"/></span>
+</body>
+</html>
