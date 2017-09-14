@@ -24,7 +24,7 @@ public class MyBatisTest {
     @Test
     public void test() {
         List users = session.selectList("selectAll");
-        List list1 = ((UserDao) this.session.getMapper(UserDao.class)).selectAll();
+        session.selectList("selectAll");
         System.out.println("id\tname\tpwd");
         Iterator list = users.iterator();
 
@@ -35,8 +35,9 @@ public class MyBatisTest {
 
     }
 
+    @Test
     public void getAll() {
-        List list = ((UserDao) this.session.getMapper(UserDao.class)).selectAll();
+        List list = session.getMapper(UserDao.class).selectAll();
         System.out.println(list.size());
     }
 
@@ -102,8 +103,8 @@ public class MyBatisTest {
         user.setId(2);
         user.setName("after");
         user.setPwd("after");
-        ((UserDao) this.session.getMapper(UserDao.class)).update(user);
-        this.session.commit();
+        session.getMapper(UserDao.class).update(user);
+        session.commit();
     }
 
     @Test

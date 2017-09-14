@@ -31,18 +31,18 @@ public class MyTest {
                 "15FF4DD4FEE6C24426530FDC58CA6B0DB69C5853A176C1D62DEBAA5ABCA4B08ACA266430B06BCA0E54ECC5A0A0C995F7\",\"sign\":\"767d191e88183d1923c0710a0423a9e4\",\"timestamp\":\"2017-07-12 " +
                 "17:37:29\",\"version\":\"1.0.0\"}";
         CloseableHttpClient httpclient = HttpClients.createDefault();
-//        HttpPost httppost = new HttpPost("http://localhost:8080/boss-locker/auth/user/saveKey.json");
-        HttpPost httppost = new HttpPost("http://www.uichange.com/ceshi/auth/user/saveKey.json");
+        HttpPost httppost = new HttpPost("http://localhost:8080/boss-locker/auth/user/saveKey.json");
+//        HttpPost httppost = new HttpPost("http://www.uichange.com/ceshi/auth/user/saveKey.json");
 //        json方式
-//        StringEntity entity1 = new StringEntity(json, "utf-8");//解决中文乱码问题
-//        entity1.setContentEncoding("UTF-8");
-//        entity1.setContentType("application/json");
-//        httppost.setEntity(entity1);
+        StringEntity entity1 = new StringEntity(json, "utf-8");//解决中文乱码问题
+        entity1.setContentEncoding("UTF-8");
+        entity1.setContentType("application/json");
+        httppost.setEntity(entity1);
 //        表单方式
-        ArrayList formparams = new ArrayList();
-        formparams.add(new BasicNameValuePair("params", json));
-        UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
-        httppost.setEntity(uefEntity);
+//        ArrayList formparams = new ArrayList();
+//        formparams.add(new BasicNameValuePair("params", json));
+//        UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
+//        httppost.setEntity(uefEntity);
         System.out.println("--------------------------------------");
         System.out.println("executing request " + httppost.getURI());
 
@@ -60,10 +60,9 @@ public class MyTest {
 
     @Test
     public void testJsonOrForm() {
-//        HttpPost httpPost = new HttpPost("http://localhost:8080/boss-locker/auth/user/saveKey.json");
-        HttpPost httpPost = new HttpPost("http://www.uichange.com/ceshi/auth/user/saveKey.json");
+        HttpPost httpPost = new HttpPost("http://localhost:8080/boss-locker/auth/user/saveKey.json");
+//        HttpPost httpPost = new HttpPost("http://www.uichange.com/ceshi/auth/user/saveKey.json");
         CloseableHttpClient client = HttpClients.createDefault();
-        String respContent = null;
 //        json方式
         String json = "{\"app_id\":\"hfax10001test\",\"biz_content\":\"30F9C7EBEF0C204F0040FAB2D6323CD0344DCDD2E5FE448FFA465154D4AF870234" +
                 "23A4A07DA4CC32C5783FB117190A99009639361461C4BF7ABC0F4410F0EFFE624712959AC8265E6A135CC47FDD6B55A7420CDB25D24AAD4C80FF71925E06B65A1FBE96" +
@@ -85,13 +84,12 @@ public class MyTest {
 //        } catch (UnsupportedEncodingException e) {
 //            e.printStackTrace();
 //        }
-        HttpResponse resp = null;
         try {
-            resp = client.execute(httpPost);
+            HttpResponse resp = client.execute(httpPost);
             if (resp.getStatusLine().getStatusCode() == 200) {
                 HttpEntity he = resp.getEntity();
                 try {
-                    respContent = EntityUtils.toString(he, "UTF-8");
+                    String  respContent = EntityUtils.toString(he, "UTF-8");
                     System.out.println(respContent);
                 } catch (IOException e) {
                     e.printStackTrace();
