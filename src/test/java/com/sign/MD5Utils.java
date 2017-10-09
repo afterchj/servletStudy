@@ -1,4 +1,4 @@
-package com.tpadsz.servlet.utils.sign;
+package com.sign;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

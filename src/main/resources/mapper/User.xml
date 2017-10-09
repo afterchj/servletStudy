@@ -4,10 +4,21 @@
 
 <mapper namespace="com.tpadsz.servlet.dao.UserDao">
 
-    <resultMap id="values" type="HashMap">
+    <resultMap id="values" type="map">
         <result property="createDate" column="createDate" javaType="date"/>
-        <result property="luckValues" column="luckValues" javaType="int"/>
+        <result property="luckNum" column="luckValues" javaType="int"/>
     </resultMap>
+
+    <resultMap id="types" type="map">
+        <result property="id" column="id" javaType="string"/>
+        <result property="configs" column="configs" javaType="string"/>
+        <result property="detail" column="detail" javaType="string"/>
+    </resultMap>
+
+    <select id="getByType" parameterType="string" resultMap="types">
+        SELECT a.id id,a.configs configs,a.detail detail from ctc_hq.f_task_setting_app a WHERE a.type=#{type}
+    </select>
+
     <insert id="save" parameterType="map">
         INSERT into test.anniversary_activity(myself,friends) VALUES(#{myself},#{friends})
     </insert>
@@ -64,7 +75,19 @@
         values(#{name},#{pwd})
     </insert>
 
-    <insert id="insertBatch"></insert>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into hongjianTest(name,pwd) values
+        <foreach collection="list" item="u" index="index" separator=",">
+             (#{u.name},#{u.pwd})
+        </foreach>
+    </insert>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        <foreach close="" collection="list" index="index" item="u" open="" separator=";">
+            insert into hongjianTest(name,pwd) values(#{u.name},#{u.pwd})
+        </foreach>
+    </insert>
+
     <update id="updateUser" parameterType="User">
         update hongjianTest set name=#{name},pwd=#{pwd} where id=#{id}
     </update>

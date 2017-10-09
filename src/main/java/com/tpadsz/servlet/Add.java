@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(
-        name = "add",
-        urlPatterns = {"/add"}
-)
+@WebServlet(name = "add", urlPatterns = {"/add"})
 public class Add extends HttpServlet {
     public Add() {
     }

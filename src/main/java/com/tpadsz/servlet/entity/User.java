@@ -1,9 +1,11 @@
 package com.tpadsz.servlet.entity;
 
 public class User {
-    int id;
-    String name;
-    String pwd;
+    private int id;
+    private String name;
+    private String pwd;
+    private String sex;
+    private Object info;
 
     public User() {
     }
@@ -30,5 +32,21 @@ public class User {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Object getInfo() {
+        return info;
+    }
+
+    public void setInfo(Object info) {
+        this.info = info;
     }
 }

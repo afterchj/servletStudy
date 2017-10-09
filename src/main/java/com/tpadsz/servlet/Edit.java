@@ -10,13 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(
-        name = "editUI",
-        urlPatterns = {"/editUI"}
-)
+@WebServlet(name = "editUI", urlPatterns = {"/editUI"})
 public class Edit extends HttpServlet {
-    public Edit() {
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");

@@ -11,13 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(
-        name = "list",
-        urlPatterns = {"/list"}
-)
+@WebServlet(name = "list", urlPatterns = {"/list"})
 public class List extends HttpServlet {
-    public List() {
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");

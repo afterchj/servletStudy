@@ -1,13 +1,10 @@
-package com.tpadsz.servlet.utils;
+package com.sign;
 
 import com.google.gson.Gson;
-import com.tpadsz.servlet.utils.sign.MD5Utils;
-import com.tpadsz.servlet.utils.sign.RSAUtils;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.TreeMap;
 
 /**

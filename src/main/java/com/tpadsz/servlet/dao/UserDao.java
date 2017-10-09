@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserDao {
+    List<Map> getByType(String type);
+
     User selectUserByID(int var1);
 
     List<User> selectAll();
@@ -28,6 +30,10 @@ public interface UserDao {
     Integer getLuck(String loginName);
 
     Date getDate(String loginName);
+
+    void insertBatch(List list);
+
+    void batchInsert(List list);
 
     void batchUpdate(List<User> list);
 }

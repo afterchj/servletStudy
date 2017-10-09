@@ -14,7 +14,6 @@ public class MybatisUtil {
 
     static {
         try {
-            reader1 = Resources.getResourceAsReader("mapper/config_user.xml");
             reader = Resources.getResourceAsReader("Configuration.xml");
             sqlSessionFactory = (new SqlSessionFactoryBuilder()).build(reader);
         } catch (Exception var1) {

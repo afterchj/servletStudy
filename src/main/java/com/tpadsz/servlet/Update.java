@@ -1,6 +1,7 @@
 package com.tpadsz.servlet;
 
 import com.tpadsz.servlet.entity.User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -9,13 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(
-        name = "update",
-        urlPatterns = {"/update"}
-)
+@WebServlet(name = "update", urlPatterns = {"/update"})
 public class Update extends HttpServlet {
-    public Update() {
-    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=utf-8");
@@ -26,7 +22,7 @@ public class Update extends HttpServlet {
         User user = new User();
         user.setName(name);
         user.setPwd(pwd);
-        if(!name.equals("") && !pwd.equals("")) {
+        if (!name.equals("") && !pwd.equals("")) {
             out.println("<script>alert(\'update successfully\');location.href=\'index.jsp\'</script>");
         } else {
             out.println("<script>alert(\'update failed\');history.back()</script>");

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tpadsz.servlet.dao.TaskDao">
+
+    <insert id="addOne" parameterType="com.tpadsz.servlet.entity.MaoTask">
+         insert into f_task_mao_app(
+        task_id, task_title, channel_task_price, task_price,task_create_time,task_check_time,task_repeat_hours,
+        task_repeat_num,task_platform,task_surplus,task_type,task_open_area,task_desc,task_update_time,
+        detail,status,img,type,update_date
+        )values(
+            #{task_id}, #{task_title},
+            #{img}, #{type},
+            #{channel_task_price},#{task_price},
+            #{task_create_time}, #{task_check_time},
+            #{task_repeat_hours},#{task_repeat_num},
+            #{task_platform}, #{task_surplus},
+            #{task_type},#{task_open_area},
+            #{task_desc}, #{task_update_time},
+            #{detail},#{status},
+            #{update_date}
+            )
+    </insert>
+
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into f_task_mao_app(
+        task_id, task_title, channel_task_price, task_price,task_create_time,task_check_time,task_repeat_hours,
+        task_repeat_num,task_platform,task_surplus,task_type,task_open_area,task_desc,task_update_time,
+        detail,status,img,type,update_date
+        )values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.task_id}, #{item.task_title},
+            #{item.img}, #{item.type},
+            #{item.channel_task_price},#{item.task_price},
+            #{item.task_create_time}, #{item.task_check_time},
+            #{item.task_repeat_hours},#{item.task_repeat_num},
+            #{item.task_platform}, #{item.task_surplus},
+            #{item.task_type},#{item.task_open_area},
+            #{item.task_desc}, #{item.task_update_time},
+            #{item.detail},#{item.status},
+            #{item.update_date}
+            )
+        </foreach>
+    </insert>
+</mapper>

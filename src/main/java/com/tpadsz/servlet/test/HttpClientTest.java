@@ -104,7 +104,7 @@ public class HttpClientTest {
 
     }
 
-//    @Test
+//    @HttpUtilTest
 //    public void postForm() throws Exception {
 //        String json = "{\"app_id\":\"hfax10001test\",\"biz_content\":\"30F9C7EBEF0C204F0040FAB2D6323CD0344DCDD2E5FE448FFA465154D4AF870234" +
 //                "23A4A07DA4CC32C5783FB117190A99009639361461C4BF7ABC0F4410F0EFFE624712959AC8265E6A135CC47FDD6B55A7420CDB25D24AAD4C80FF71925E06B65A1FBE96" +
@@ -172,19 +172,15 @@ public class HttpClientTest {
             } catch (IOException var26) {
                 var26.printStackTrace();
             }
-
         }
-
     }
 
     public void get() {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-
         try {
             HttpGet e = new HttpGet("http://www.baidu.com/");
             System.out.println("executing request " + e.getURI());
             CloseableHttpResponse response = httpclient.execute(e);
-
             try {
                 HttpEntity entity = response.getEntity();
                 System.out.println(response.getStatusLine());
@@ -194,7 +190,6 @@ public class HttpClientTest {
                     System.out.println("Response content length: " + entity.getContentLength());
                     System.out.println("Response content: " + EntityUtils.toString(entity));
                 }
-
                 System.out.println("------------------------------------");
             } finally {
                 response.close();
@@ -211,9 +206,7 @@ public class HttpClientTest {
             } catch (IOException var24) {
                 var24.printStackTrace();
             }
-
         }
-
     }
 
     public void upload() {
@@ -235,7 +228,6 @@ public class HttpClientTest {
                 if (resEntity != null) {
                     System.out.println("Response content length: " + resEntity.getContentLength());
                 }
-
                 EntityUtils.consume(resEntity);
             } finally {
                 response.close();
@@ -250,8 +242,6 @@ public class HttpClientTest {
             } catch (IOException var24) {
                 var24.printStackTrace();
             }
-
         }
-
     }
 }

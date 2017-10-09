@@ -10,7 +10,7 @@ public class MysqlDemo {
 
     public static void main(String[] args) throws Exception {
         Connection conn = null;
-        String url = "jdbc:mysql://10.132.55.23:3306/test?useUnicode=true&characterEncoding=UTF8";
+        String url = "jdbc:mysql://10.132.55.23:3306/test?useUnicode=true&characterEncoding=UTF-8";
         String user = "hongjian";
         String password = "hongjian";
 
