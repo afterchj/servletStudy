@@ -1,11 +1,14 @@
 package com.tpadsz.servlet.entity;
 
+import java.util.Date;
+
 public class User {
     private int id;
     private String name;
     private String pwd;
     private String sex;
     private Object info;
+    private Date createDate;
 
     public User() {
     }
@@ -48,5 +51,13 @@ public class User {
 
     public void setInfo(Object info) {
         this.info = info;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

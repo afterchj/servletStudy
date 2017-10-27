@@ -6,43 +6,99 @@
 
     <insert id="addOne" parameterType="com.tpadsz.servlet.entity.MaoTask">
          insert into f_task_mao_app(
-        task_id, task_title, channel_task_price, task_price,task_create_time,task_check_time,task_repeat_hours,
-        task_repeat_num,task_platform,task_surplus,task_type,task_open_area,task_desc,task_update_time,
-        detail,status,img,type,update_date
+          task_id, task_title,
+          task_price,create_date,
+          task_surplus,task_desc,
+          update_date,status,
+          icon,type
         )values(
-            #{task_id}, #{task_title},
-            #{img}, #{type},
-            #{channel_task_price},#{task_price},
-            #{task_create_time}, #{task_check_time},
-            #{task_repeat_hours},#{task_repeat_num},
-            #{task_platform}, #{task_surplus},
-            #{task_type},#{task_open_area},
-            #{task_desc}, #{task_update_time},
-            #{detail},#{status},
-            #{update_date}
+            #{taskId}, #{taskTitle},
+            #{taskPrice},#{createDate},
+            #{taskSurplus},#{taskDesc},
+            #{updateDate},#{status},
+            #{icon},#{type}
             )
     </insert>
 
 
     <insert id="batchInsert" parameterType="java.util.List">
         insert into f_task_mao_app(
-        task_id, task_title, channel_task_price, task_price,task_create_time,task_check_time,task_repeat_hours,
-        task_repeat_num,task_platform,task_surplus,task_type,task_open_area,task_desc,task_update_time,
-        detail,status,img,type,update_date
+        task_id, task_title,
+        task_price,create_date,
+        task_surplus,task_desc,
+        update_date,status,
+        icon,type,
+        is_delete,other
         )values
-        <foreach collection="list" item="item" index="index" separator=",">
+        <foreach collection="list" item="u" index="index" separator=",">
             (
-            #{item.task_id}, #{item.task_title},
-            #{item.img}, #{item.type},
-            #{item.channel_task_price},#{item.task_price},
-            #{item.task_create_time}, #{item.task_check_time},
-            #{item.task_repeat_hours},#{item.task_repeat_num},
-            #{item.task_platform}, #{item.task_surplus},
-            #{item.task_type},#{item.task_open_area},
-            #{item.task_desc}, #{item.task_update_time},
-            #{item.detail},#{item.status},
-            #{item.update_date}
+            #{u.taskId}, #{u.taskTitle},
+            #{u.taskPrice},#{u.createDate},
+            #{u.taskSurplus},#{u.taskDesc},
+            #{u.updateDate},#{u.status},
+            #{u.icon},#{u.type},
+            #{u.isDelete},#{u.other}
             )
         </foreach>
     </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        <foreach close="" collection="list" index="index" item="u" open="" separator=";">
+            insert into f_task_mao_app(
+            task_id, task_title,
+            task_price,create_date,
+            task_surplus,task_desc,
+            update_date,status,
+            icon,type,
+            is_delete,other
+            )values
+            (
+            #{u.taskId}, #{u.taskTitle},
+            #{u.taskPrice},#{u.createDate},
+            #{u.taskSurplus},#{u.taskDesc},
+            #{u.updateDate},#{u.status},
+            #{u.icon},#{u.type},
+            #{isDelete},#{u.other}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        <foreach collection="list" item="u" index="index" open="" close="" separator=";">
+            update f_task_mao_app set
+            task_title=#{u.taskTitle},
+            other=#{u.other}
+            where task_id=#{u.taskId}
+        </foreach>
+    </update>
+
+    <update id="batchUpdate" parameterType="java.util.List">
+        update f_task_mao_app set
+        task_title='批量更新测试',
+        other=#{other}
+        where task_id in
+        <foreach collection="list" index="index" item="u" open="(" separator="," close=")">
+            #{u.taskId}
+        </foreach>
+    </update>
+
+    <update id="updateOne" parameterType="com.tpadsz.servlet.entity.MaoTask">
+        update f_task_mao_app set
+        task_title=#{taskTitle},
+        task_price=#{taskPrice},
+        create_date=#{createDate},
+        task_surplus=#{taskSurplus},
+        task_desc=#{taskDesc},
+        update_date=#{updateDate},
+        status=#{status},
+        icon=#{icon},type=#{type},other=#{other}
+        where task_id=#{taskId}
+    </update>
+
+    <select id="getCount" resultType="int">
+        SELECT COUNT(*) from f_task_mao_app
+    </select>
+    <select id="getDate" resultType="date">
+        SELECT create_date from f_task_mao_app ORDER BY create_date DESC LIMIT 1
+    </select>
 </mapper>

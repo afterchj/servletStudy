@@ -131,25 +131,24 @@ public class MyBatisTest {
     @Test
     public void batchUpdate() {
         List<User> list = new ArrayList<User>();
-        for (int i = 102; i < 105; i++) {
+        for (int i = 10; i < 15; i++) {
             User user = new User();
             user.setId(i);
-            user.setName("test" + i);
-            user.setPwd("a" + i);
+            user.setName("after" + i);
+            user.setPwd("c" + i);
             list.add(user);
-            session.getMapper(UserDao.class).addUser(user);
-            session.commit();
         }
-//        for (User user : list) {
-//            System.out.println(user.getId() + "," + user.getName() + "," + user.getPwd());
-//        }
-//        User user = new User();
-//        user.setId(104);
-//        user.setName("admin");
-//        user.setPwd("admin123");
-//        list.add(user);
-//        (this.session.getMapper(UserDao.class)).batchUpdate(list);
-//        this.session.commit();
+        session.getMapper(UserDao.class).batchUpdate(list);
+        session.commit();
+    }
+
+    @Test
+    public void testAddOne() {
+        User user = new User();
+        user.setName("测试员");
+        user.setCreateDate(new Date(1489062821000l));
+        session.getMapper(UserDao.class).addUser(user);
+        session.commit();
     }
 
     @Test
@@ -165,8 +164,9 @@ public class MyBatisTest {
         session.getMapper(UserDao.class).insertBatch(list);
         session.commit();
     }
+
     @Test
-    public void batchInsert(){
+    public void batchInsert() {
         List<User> list = new ArrayList<User>();
         for (int i = 0; i < 3; i++) {
             User user = new User();
@@ -177,23 +177,37 @@ public class MyBatisTest {
         session.getMapper(UserDao.class).batchInsert(list);
         session.commit();
     }
-        @Test public void getBy () {
-            byte id = 101;
-            User u = session.getMapper(UserDao.class).selectUserByID(id);
-            System.out.println("====》" + u.getId() + "\t" + u.getName() + "\t" + u.getPwd());
-        }
-        @Test public void addOne () {
-            String str = "{\"channel_task_price\":80,\"task_check_time\":24,\"task_create_time\":1477014521000,\"task_desc\":\"第六波--M站喵任务分享测试003第六波--M站喵任务分享测试003\",\"task_id\":2816,\"task_open_area\":[{\"open_city\":\"null\",\"open_province\":\"null\",\"open_type\":0}],\"task_platform\":0,\"task_price\":50,\"task_repeat_hours\":0,\"task_repeat_num\":1,\"task_status\":1,\"task_surplus\":94,\"task_title\":\"第六波--M站喵任务分享测试003\",\"task_type\":4,\"task_update_time\":1506481090000}";
-            MaoTask jsonObject = JSON.parseObject(str, MaoTask.class);
-//        jsonObject.setType("maoHp");
-//        jsonObject.setStatus("0");
-//        jsonObject.setDetail("看看效果！");
-//        jsonObject.setImg("/test/img.jpg");
-            System.out.println(jsonObject.getDetail());
-            System.out.println(jsonObject.getType());
-            System.out.println(jsonObject.getStatus());
-            System.out.println(jsonObject.getTask_open_area());
-            session.getMapper(TaskDao.class).addOne(jsonObject);
-            session.commit();
-        }
+
+    @Test
+    public void getBy() {
+        byte id = 101;
+        User u = session.getMapper(UserDao.class).selectUserByID(id);
+        System.out.println("====》" + u.getId() + "\t" + u.getName() + "\t" + u.getPwd());
     }
+    @Test
+    public void testGetDate(){
+        Date date=session.getMapper(TaskDao.class).getDate();
+        System.out.println(date.getTime());
+    }
+
+    @Test
+    public void addOne() {
+        String str = "{\"channel_task_price\":80,\"task_check_time\":24,\"task_create_time\":1477014521000,\"task_desc\":" +
+                "\"第六波--M站喵任务分享测试003第六波--M站喵任务分享测试003\",\"task_id\":2816,\"task_open_area\":" +
+                "[{\"open_city\":\"null\",\"open_province\":\"null\",\"open_type\":0}],\"task_platform\":0,\"task_price\":50,\"task_repeat_hours\":" +
+                "0,\"task_repeat_num\":1,\"task_status\":1,\"task_surplus\":94,\"task_title\":\"第六波--M站喵任务分享测试003\",\"task_type\":" +
+                "4,\"task_update_time\":1506481090000}";
+        JSONObject object=JSON.parseObject(str);
+        MaoTask task=new MaoTask();
+        task.setTaskId(object.getString("task_id"));
+        task.setTaskTitle(object.getString("task_title"));
+        task.setTaskDesc(object.getString("task_desc"));
+        task.setTaskPrice(object.getInteger("task_price"));
+        task.setTaskSurplus(object.getInteger("task_surplus"));
+        task.setCreateDate(new Date(object.getLong("task_create_time")));
+        task.setUpdateDate(new Date(object.getLong("task_update_time")));
+
+        session.getMapper(TaskDao.class).addOne(task);
+        session.commit();
+    }
+}

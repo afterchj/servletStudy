@@ -103,6 +103,6 @@ public class CalendarUtil {
 //        System.out.println("currentTime="+calendar.getTimeInMillis());
         calendar.add(Calendar.DATE,amount);
 //        System.out.println("day +1 ="+calendar.getTimeInMillis());
-        return 0;
+        return calendar.getTimeInMillis();
     }
 }

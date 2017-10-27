@@ -10,7 +10,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 public class MybatisUtil {
     private static SqlSessionFactory sqlSessionFactory;
     private static Reader reader;
-    private static Reader reader1;
 
     static {
         try {

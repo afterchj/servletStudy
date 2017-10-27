@@ -7,6 +7,7 @@ import com.tpadsz.servlet.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -102,5 +103,12 @@ public class MyUtil {
         for (int i=0;i<userList.size();i++){
             System.out.println(userList.get(i).getInfo());
         }
+    }
+    @Test
+    public void testDate(){
+        long time=1477014521000l;
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date=new Date(time);
+        System.out.println(format.format(date));
     }
 }

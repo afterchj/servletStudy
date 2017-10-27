@@ -27,8 +27,7 @@ public class HttpClientUtil {
         RequestEntity requestEntity = new StringRequestEntity(JSON.toJSONString(params), "application/json", "utf-8");
         postMethod.setRequestEntity(requestEntity);
 
-        int statusCode = httpClient.executeMethod(postMethod);
-        System.out.println(statusCode);
+        httpClient.executeMethod(postMethod);
         InputStream in = postMethod.getResponseBodyAsStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         String str = br.readLine();

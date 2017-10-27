@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+       default-lazy-init="true">
+
+
+    <bean id="exampleJob2" class="com.tpadsz.servlet.Job"></bean>
+    <bean id="exampleJob2Detail"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 指定任务类 -->
+        <property name="targetObject" ref="exampleJob2"/>
+        <!-- 指定任务执行的方法 -->
+        <property name="targetMethod" value="execute"/>
+    </bean>
+    <bean id="exampleJob2Trigger"
+          class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="exampleJob2Detail"/>
+        <!-- 每10秒运行一次 -->
+        <property name="cronExpression" value="5/15 * * * * ?"/>
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <!-- <ref bean="exampleJobTrigger" /> -->
+                <ref bean="exampleJob2Trigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

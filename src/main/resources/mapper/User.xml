@@ -71,8 +71,7 @@
         <!--<selectKey keyProperty="id" resultType="int">-->
         <!--select LAST_INSERT_ID()-->
         <!--</selectKey>-->
-        insert into hongjianTest(name,pwd)
-        values(#{name},#{pwd})
+        insert into student(name,createDate) values(#{name},#{createDate})
     </insert>
 
     <insert id="insertBatch" parameterType="java.util.List">
@@ -101,7 +100,7 @@
     <update id="batchUpdate" parameterType="java.util.List">
 
         <foreach collection="list" item="user" index="index" open="" close="" separator=";">
-            update hongjianTest <set>name=#{user.name},pwd=#{user.pwd}</set> where id = #{user.id}
+            update hongjianTest set name=#{user.name},pwd=#{user.pwd} where id = #{user.id}
         </foreach>
 
     </update>
