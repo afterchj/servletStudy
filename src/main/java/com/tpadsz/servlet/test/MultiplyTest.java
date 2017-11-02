@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by hongjian.chen on 2017/10/10.
  */
-public class MutilyTest {
+public class MultiplyTest {
     @Test
     public void test() {
         int num = 1;
