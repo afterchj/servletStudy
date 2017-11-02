@@ -2,8 +2,10 @@ package com.tpadsz.servlet.test;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.tpadsz.servlet.dao.BossLockerDao;
 import com.tpadsz.servlet.dao.TaskDao;
 import com.tpadsz.servlet.dao.UserDao;
+import com.tpadsz.servlet.entity.BossLocker;
 import com.tpadsz.servlet.entity.MaoTask;
 import com.tpadsz.servlet.entity.User;
 import com.tpadsz.servlet.utils.MybatisUtil;
@@ -184,21 +186,18 @@ public class MyBatisTest {
         User u = session.getMapper(UserDao.class).selectUserByID(id);
         System.out.println("====》" + u.getId() + "\t" + u.getName() + "\t" + u.getPwd());
     }
+
     @Test
-    public void testGetDate(){
-        Date date=session.getMapper(TaskDao.class).getDate();
+    public void testGetDate() {
+        Date date = session.getMapper(TaskDao.class).getDate();
         System.out.println(date.getTime());
     }
 
     @Test
     public void addOne() {
-        String str = "{\"channel_task_price\":80,\"task_check_time\":24,\"task_create_time\":1477014521000,\"task_desc\":" +
-                "\"第六波--M站喵任务分享测试003第六波--M站喵任务分享测试003\",\"task_id\":2816,\"task_open_area\":" +
-                "[{\"open_city\":\"null\",\"open_province\":\"null\",\"open_type\":0}],\"task_platform\":0,\"task_price\":50,\"task_repeat_hours\":" +
-                "0,\"task_repeat_num\":1,\"task_status\":1,\"task_surplus\":94,\"task_title\":\"第六波--M站喵任务分享测试003\",\"task_type\":" +
-                "4,\"task_update_time\":1506481090000}";
-        JSONObject object=JSON.parseObject(str);
-        MaoTask task=new MaoTask();
+        String str = "{\"channel_task_price\":80,\"task_check_time\":24,\"task_create_time\":1477014521000,\"task_desc\":" + "\"第六波--M站喵任务分享测试003第六波--M站喵任务分享测试003\",\"task_id\":2816,\"task_open_area\":" + "[{\"open_city\":\"null\",\"open_province\":\"null\",\"open_type\":0}],\"task_platform\":0,\"task_price\":50,\"task_repeat_hours\":" + "0,\"task_repeat_num\":1,\"task_status\":1,\"task_surplus\":94,\"task_title\":\"第六波--M站喵任务分享测试003\",\"task_type\":" + "4,\"task_update_time\":1506481090000}";
+        JSONObject object = JSON.parseObject(str);
+        MaoTask task = new MaoTask();
         task.setTaskId(object.getString("task_id"));
         task.setTaskTitle(object.getString("task_title"));
         task.setTaskDesc(object.getString("task_desc"));
@@ -208,6 +207,45 @@ public class MyBatisTest {
         task.setUpdateDate(new Date(object.getLong("task_update_time")));
 
         session.getMapper(TaskDao.class).addOne(task);
+        session.commit();
+    }
+
+    @Test
+    public void testReplace() {
+        String status = session.getMapper(BossLockerDao.class).getStatus("12302");
+        System.out.println("status=" + status);
+        BossLocker locker = new BossLocker();
+        locker.setUid("12302");
+        locker.setStatus("1");
+        session.getMapper(BossLockerDao.class).saveOrUpdate(locker);
+        String status2 = session.getMapper(BossLockerDao.class).getStatus("12302");
+        session.commit();
+        System.out.println("status=" + status2);
+    }
+
+    @Test
+    public void testJsonMap() {
+        String str = "{\"uid\":\"f9e474c87ef04ef4abdb221e048ea16b\",\"token\":\"2328dd702d984553b0132c375f6e3c56\",\"fileId\":\"13777\",\"fileType\":\"type\",\"price\":\"101\",\"firmware\":{\"clientVersion\":\"1.2.1\",\"versionCode\":57,\"imei\":\"869139024261014\",\"imsi\":\"460003544173172\",\"fm\":\"com.tencent.android.qqdownloader\",\"os\":\"android-5.0.2\",\"model\":\"CHE-TL00H\",\"operators\":\"YD\",\"resolution\":\"720*1280\",\"netEnv\":\"WIFI\",\"pkg\":\"com.change.unlock.boss\",\"mac\":\"50:68:0a:39:e0:8b\",\"android_id\":\"4035a2fbcbe5816e\",\"device_id\":\"fcdeb5010c0e375b8a0b96b8fc24067d\",\"ym_device_id\":\"Ag7oRoTavttSyYavO_v8BRsfRwcg89eoB84a_EMgp5D6\",\"brand\":\"Honor\",\"mobileType\":\"HUAWEI\",\"voltage\":4266,\"temperature\":320,\"user_lbs_info\":\"{\\\"LocationCity\\\":\\\"苏州市\\\",\\\"LocationCountry\\\":\\\"中国\\\",\\\"LocationDes\\\":\\\"江苏省苏州市虎丘区珠江路靠近苏州创业园(珠江路)\\\",\\\"LocationPOI\\\":\\\"苏州创业园(珠江路)\\\",\\\"Locationfrom\\\":\\\"GD\\\",\\\"LocationLat\\\":31.275805,\\\"Locationlng\\\":120.537661,\\\"LocationAccurancy\\\":25.0}\",\"bossDeviceId\":\"4193DD03EED009FC8C39026BF9060AD4\",\"fingerprint\":\"Honor\\/CHE-TL00H\\/hnCHE-H:5.0.2\\/HonorCHE-TL00H\\/C00B250:user\\/release-keys\"}}";
+        JSONObject params = JSON.parseObject(str);
+        String uid = params.getString("uid");
+        String object = params.getString("firmware");
+        BossLocker locker = new BossLocker();
+        locker.setUid(uid);
+        locker.setSignOutTime(new Date());
+
+        Map<String, Object> map = JSON.parseObject(object, Map.class);
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getKey().equals("user_lbs_info")) {
+                JSONObject info = JSON.parseObject(entry.getValue().toString());
+                String city = info.getString("LocationCity");
+                locker.setCity(city);
+                System.out.println("city = " + city);
+            }
+            if (entry.getKey().equals("clientVersion")) {
+                locker.setClientVersion(entry.getValue().toString());
+            }
+        }
+        session.getMapper(BossLockerDao.class).save(locker);
         session.commit();
     }
 }

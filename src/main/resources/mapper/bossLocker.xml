@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tpadsz.servlet.dao.BossLockerDao">
+
+    <resultMap id="values" type="map">
+        <result property="createDate" column="createDate" javaType="date"/>
+        <result property="luckNum" column="luckValues" javaType="int"/>
+    </resultMap>
+
+    <resultMap id="types" type="map">
+        <result property="id" column="id" javaType="string"/>
+        <result property="configs" column="configs" javaType="string"/>
+        <result property="detail" column="detail" javaType="string"/>
+    </resultMap>
+
+    <insert id="saveOrUpdate" parameterType="BossLocker">
+       REPLACE  INTO lock_status(uid,status) VALUE (#{uid},#{status})
+   </insert>
+    <select id="getStatus" parameterType="string" resultType="string">
+        SELECT status FROM lock_status WHERE uid=#{uid}
+    </select>
+    <insert id="save" parameterType="BossLocker">
+        INSERT INTO lock_info(uid,sign_out_time,location_city,client_version) VALUES (#{uid},#{signOutTime},#{city},#{clientVersion})
+    </insert>
+</mapper>

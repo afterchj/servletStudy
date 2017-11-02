@@ -139,7 +139,7 @@ public class HttpClientTest {
     @Test
     public void post() {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost("http://localhost:8080/web/editUI");
+        HttpPost httppost = new HttpPost("http://localhost:8080/bossLocker-store/alipay/callbacks.do");
         ArrayList formparams = new ArrayList();
         formparams.add(new BasicNameValuePair("id", "12"));
 

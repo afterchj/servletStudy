@@ -4,7 +4,8 @@
 <configuration>
     <!-- mybatis别名定义 -->
     <typeAliases>
-        <typeAlias alias="User" type="com.tpadsz.servlet.entity.User"/>
+        <package name="com.tpadsz.servlet.entity"></package>
+        <!--<typeAlias alias="User" type="com.tpadsz.servlet.entity.User"/>-->
     </typeAliases>
 
     <environments default="development">
@@ -31,6 +32,7 @@
 
     <!-- mybatis的mapper文件，每个xml配置文件对应一个接口 -->
     <mappers>
+        <mapper resource="mapper/bossLocker.xml"/>
         <mapper resource="mapper/User.xml"/>
         <mapper resource="mapper/maoTask.xml"/>
     </mappers>
