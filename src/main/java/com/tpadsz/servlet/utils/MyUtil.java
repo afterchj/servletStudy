@@ -70,9 +70,11 @@ public class MyUtil {
         String str = "{\"uid\": \"4d4c5c9cd2e140fe8003083ba9bc8f76\",\"token\": \"2328dd702d984553b0132c375f6e3c56\"," + "\"myself\":\"7344614\",\"friends\":\"7566040\",\"firmware\": {\"clientVersion\": \"1.5.1\",\"versionCode\": 57," + "\"imei\": \"869139024261014\",\"imsi\": \"460003544173172\",\"fm\": \"com.tencent.android.qqdownloader\",\"os\": \"android-5.0.2\"," + "\"model\": \"CHE-TL00H\",\"operators\": \"YD\",\"resolution\": \"720*1280\",\"netEnv\": \"WIFI\",\"pkg\": \"com.change.unlock.boss\"," + "\"mac\": \"50:68:0a:39:e0:8b\",\"android_id\": \"4035a2fbcbe5816e\",\"device_id\": \"fcdeb5010c0e375b8a0b96b8fc24067d\"," + "\"ym_device_id\": \"Ag7oRoTavttSyYavO_v8BRsfRwcg89eoB84a_EMgp5D6\",\"brand\": \"Honor\",\"mobileType\": \"HUAWEI\"," + "\"voltage\": 4266,\"temperature\": 320,\"user_lbs_info\": \"Loca\",\"bossDeviceId\": \"4193DD03EED009FC8C39026BF9060AD4\"," + "\"fingerprint\": \"Honor\"}}";
         String str1 = "{\"myself\":\"4949584\",\"friends\":\"7566040\"}";
         JSONObject params = JSON.parseObject(str);
-//        System.out.println(params.toString());
-        Map map = JSONObject.toJavaObject(params, Map.class);
+        System.out.println(params.toString());
+        Map map1 = JSONObject.toJavaObject(params, Map.class);
+        Map map = JSON.parseObject(str, Map.class);
         System.out.println("myself=" + map.get("myself") + ",friends=" + map.get("friends"));
+        System.out.println("myself=" + map1.get("myself") + ",friends=" + map1.get("friends"));
     }
 
     @Test
@@ -113,21 +115,21 @@ public class MyUtil {
         System.out.println(format.format(date));
     }
 
-//    @Test
-//    public void testJsonMap() {
-//        String str = "{\"uid\":\"f9e474c87ef04ef4abdb221e048ea16b\",\"token\":\"2328dd702d984553b0132c375f6e3c56\",\"fileId\":\"13777\",\"fileType\":\"type\",\"price\":\"101\",\"firmware\":{\"clientVersion\":\"1.2.1\",\"versionCode\":57,\"imei\":\"869139024261014\",\"imsi\":\"460003544173172\",\"fm\":\"com.tencent.android.qqdownloader\",\"os\":\"android-5.0.2\",\"model\":\"CHE-TL00H\",\"operators\":\"YD\",\"resolution\":\"720*1280\",\"netEnv\":\"WIFI\",\"pkg\":\"com.change.unlock.boss\",\"mac\":\"50:68:0a:39:e0:8b\",\"android_id\":\"4035a2fbcbe5816e\",\"device_id\":\"fcdeb5010c0e375b8a0b96b8fc24067d\",\"ym_device_id\":\"Ag7oRoTavttSyYavO_v8BRsfRwcg89eoB84a_EMgp5D6\",\"brand\":\"Honor\",\"mobileType\":\"HUAWEI\",\"voltage\":4266,\"temperature\":320,\"user_lbs_info\":\"{\\\"LocationCity\\\":\\\"苏州市\\\",\\\"LocationCountry\\\":\\\"中国\\\",\\\"LocationDes\\\":\\\"江苏省苏州市虎丘区珠江路靠近苏州创业园(珠江路)\\\",\\\"LocationPOI\\\":\\\"苏州创业园(珠江路)\\\",\\\"Locationfrom\\\":\\\"GD\\\",\\\"LocationLat\\\":31.275805,\\\"Locationlng\\\":120.537661,\\\"LocationAccurancy\\\":25.0}\",\"bossDeviceId\":\"4193DD03EED009FC8C39026BF9060AD4\",\"fingerprint\":\"Honor\\/CHE-TL00H\\/hnCHE-H:5.0.2\\/HonorCHE-TL00H\\/C00B250:user\\/release-keys\"}}";
-//        JSONObject params = JSON.parseObject(str);
-//        String uid = params.getString("uid");
-//        String object = params.getString("firmware");
-//        Map<String, Object> map = JSON.parseObject(object, Map.class);
-//        for (Map.Entry<String, Object> entry : map.entrySet()) {
-//            if (entry.getKey().equals("user_lbs_info")) {
-//                JSONObject info = JSON.parseObject(entry.getValue().toString());
-//                String city = info.getString("LocationCity");
-//                System.out.println("location=" + city);
-//                continue;
-//            }
-//            System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
-//        }
-//    }
+    @Test
+    public void testJsonMap() {
+        String str = "{\"uid\":\"f9e474c87ef04ef4abdb221e048ea16b\",\"token\":\"2328dd702d984553b0132c375f6e3c56\",\"fileId\":\"13777\",\"fileType\":\"type\",\"price\":\"101\",\"firmware\":{\"clientVersion\":\"1.2.1\",\"versionCode\":57,\"imei\":\"869139024261014\",\"imsi\":\"460003544173172\",\"fm\":\"com.tencent.android.qqdownloader\",\"os\":\"android-5.0.2\",\"model\":\"CHE-TL00H\",\"operators\":\"YD\",\"resolution\":\"720*1280\",\"netEnv\":\"WIFI\",\"pkg\":\"com.change.unlock.boss\",\"mac\":\"50:68:0a:39:e0:8b\",\"android_id\":\"4035a2fbcbe5816e\",\"device_id\":\"fcdeb5010c0e375b8a0b96b8fc24067d\",\"ym_device_id\":\"Ag7oRoTavttSyYavO_v8BRsfRwcg89eoB84a_EMgp5D6\",\"brand\":\"Honor\",\"mobileType\":\"HUAWEI\",\"voltage\":4266,\"temperature\":320,\"user_lbs_info\":\"{\\\"LocationCity\\\":\\\"苏州市\\\",\\\"LocationCountry\\\":\\\"中国\\\",\\\"LocationDes\\\":\\\"江苏省苏州市虎丘区珠江路靠近苏州创业园(珠江路)\\\",\\\"LocationPOI\\\":\\\"苏州创业园(珠江路)\\\",\\\"Locationfrom\\\":\\\"GD\\\",\\\"LocationLat\\\":31.275805,\\\"Locationlng\\\":120.537661,\\\"LocationAccurancy\\\":25.0}\",\"bossDeviceId\":\"4193DD03EED009FC8C39026BF9060AD4\",\"fingerprint\":\"Honor\\/CHE-TL00H\\/hnCHE-H:5.0.2\\/HonorCHE-TL00H\\/C00B250:user\\/release-keys\"}}";
+        JSONObject params = JSON.parseObject(str);
+        String uid = params.getString("uid");
+        String object = params.getString("firmware");
+        Map<String, Object> map = JSON.parseObject(object, Map.class);
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getKey().equals("user_lbs_info")) {
+                JSONObject info = JSON.parseObject(entry.getValue().toString());
+                String city = info.getString("LocationCity");
+                System.out.println("LocationCity = " + city);
+                continue;
+            }
+            System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
+        }
+    }
 }
