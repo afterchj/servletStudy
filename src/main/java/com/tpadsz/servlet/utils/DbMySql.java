@@ -1,7 +1,6 @@
 package com.tpadsz.servlet.utils;
 
 import com.mysql.jdbc.Connection;
-import org.junit.Test;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,29 +12,21 @@ import java.sql.SQLException;
  */
 public class DbMySql {
 
-    @Test
-    public void getTaskNum() {
+    public static int getTaskNum() {
+        int times=0;
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement pstm = null;
         String sql;
-        String url = "jdbc:mysql://10.10.11.80:3306/boss_locker?user=ccy&password=ccy&useUnicode=true&characterEncoding=UTF8";
+        String url = "jdbc:mysql://10.10.11.57:3306/ctc_hq?user=hongjian&password=hongjian&useUnicode=true&characterEncoding=UTF8";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn = (Connection) DriverManager.getConnection(url);
-            System.out.println(conn);
-            sql = "INSERT INTO boss_locker.anniversary_activity(myself,friends) values(?,?)";
-            pstm = conn.prepareStatement(sql);
-            for (int i = 0; i < 10; i++) {
-                pstm.setString(1, "7344614");
-                pstm.setString(2, "" + i);
-                int flag = pstm.executeUpdate();
-                System.out.println(flag);
-            }
-            sql = "SELECT COUNT(1) from anniversary_activity where myself='7344614' GROUP BY myself";
+            sql = "SELECT COUNT(1) FROM `log_task` where app_id='9' and result_code='000' and DateDiff(create_date,CURDATE())=0";
             pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
             if (rs.next()) {
+                times=rs.getInt(1);
                 System.out.println(rs.getInt(1));
             }
         } catch (Exception e) {
@@ -51,5 +42,10 @@ public class DbMySql {
                 }
             }
         }
+        return times;
+    }
+
+    public static void main(String[] args) {
+        getTaskNum();
     }
 }

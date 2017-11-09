@@ -48,7 +48,7 @@ public class MyUtil {
 
         String str = "{\"createData\":1487643767000,\"redNum\":null,\"costDetails\"" + ":[{\"name\":\"兑换支出\",\"value\":1000},{\"name\":\"其他支出\",\"value\":0}]," + "\"history\":6900,\"incomeDetails\":[{\"name\":\"任务收入\",\"value\":910}," + "{\"name\":\"分成收入\",\"value\":0},{\"name\":\"注册收入\",\"value\":3000},{\"name\":\"解锁收入\"," + "\"value\":2080},{\"name\":\"奖金收入\",\"value\":720},{\"name\":\"签到收入\",\"value\":190}],\"luckValues\":7}";
         JSONObject params = JSON.parseObject(str);
-        JSONArray json = JSON.parseArray(params.get("incomeDetails").toString());
+        JSONArray json = JSON.parseArray(params.getString("incomeDetails"));
         System.out.println(params.get("incomeDetails"));
         JSONArray json1 = JSON.parseArray(params.get("costDetails").toString());
         System.out.println(json1);
@@ -81,7 +81,8 @@ public class MyUtil {
     public void testJson() {
         String str = "[{\"id\":1,\"name\":\"test01\",\"pwd\":\"001\",\"sex\":\"male\"},{\"id\":2,\"info\":\"{\\\"result\\\":\\\"000\\\",\\\"luckValues\\\":3}\",\"name\":\"test02\",\"pwd\":\"002\",\"sex\":\"female\"},{\"id\":3,\"name\":\"test03\",\"pwd\":\"003\",\"sex\":\"male\"}]";
 
-        Object o = "{\"result\":\"000\",\"luckValues\":3}";
+        String o = "{\"result\":\"000\",\"luckValues\":3}";
+        System.out.println(o);
 
         List<User> jsonList = new ArrayList<User>();
         for (int i = 1; i <= 3; i++) {
@@ -103,23 +104,28 @@ public class MyUtil {
         System.out.println("jsonString=" + jsonString);
         List<User> userList = JSON.parseArray(str, User.class);
         for (int i = 0; i < userList.size(); i++) {
-            System.out.println(userList.get(i).getInfo());
+            System.out.println("getInfo="+userList.get(i).getInfo());
         }
     }
 
     @Test
     public void testDate() {
+        String str="test + is + ok";
         long time = 1477014521000l;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(time);
         System.out.println(format.format(date));
+        String[] arrs=str.split("\\+");
+        for (int i=0;i<arrs.length;i++){
+            System.out.println(arrs[i]);
+        }
+        System.out.println();
     }
 
     @Test
     public void testJsonMap() {
         String str = "{\"uid\":\"f9e474c87ef04ef4abdb221e048ea16b\",\"token\":\"2328dd702d984553b0132c375f6e3c56\",\"fileId\":\"13777\",\"fileType\":\"type\",\"price\":\"101\",\"firmware\":{\"clientVersion\":\"1.2.1\",\"versionCode\":57,\"imei\":\"869139024261014\",\"imsi\":\"460003544173172\",\"fm\":\"com.tencent.android.qqdownloader\",\"os\":\"android-5.0.2\",\"model\":\"CHE-TL00H\",\"operators\":\"YD\",\"resolution\":\"720*1280\",\"netEnv\":\"WIFI\",\"pkg\":\"com.change.unlock.boss\",\"mac\":\"50:68:0a:39:e0:8b\",\"android_id\":\"4035a2fbcbe5816e\",\"device_id\":\"fcdeb5010c0e375b8a0b96b8fc24067d\",\"ym_device_id\":\"Ag7oRoTavttSyYavO_v8BRsfRwcg89eoB84a_EMgp5D6\",\"brand\":\"Honor\",\"mobileType\":\"HUAWEI\",\"voltage\":4266,\"temperature\":320,\"user_lbs_info\":\"{\\\"LocationCity\\\":\\\"苏州市\\\",\\\"LocationCountry\\\":\\\"中国\\\",\\\"LocationDes\\\":\\\"江苏省苏州市虎丘区珠江路靠近苏州创业园(珠江路)\\\",\\\"LocationPOI\\\":\\\"苏州创业园(珠江路)\\\",\\\"Locationfrom\\\":\\\"GD\\\",\\\"LocationLat\\\":31.275805,\\\"Locationlng\\\":120.537661,\\\"LocationAccurancy\\\":25.0}\",\"bossDeviceId\":\"4193DD03EED009FC8C39026BF9060AD4\",\"fingerprint\":\"Honor\\/CHE-TL00H\\/hnCHE-H:5.0.2\\/HonorCHE-TL00H\\/C00B250:user\\/release-keys\"}}";
         JSONObject params = JSON.parseObject(str);
-        String uid = params.getString("uid");
         String object = params.getString("firmware");
         Map<String, Object> map = JSON.parseObject(object, Map.class);
         for (Map.Entry<String, Object> entry : map.entrySet()) {
