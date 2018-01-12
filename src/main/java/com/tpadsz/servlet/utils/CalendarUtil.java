@@ -1,5 +1,7 @@
 package com.tpadsz.servlet.utils;
 
+import org.junit.Test;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,8 +11,8 @@ import java.util.Date;
  * Created by hongjian.chen on 2017/9/29.
  */
 public class CalendarUtil {
-    public static void main(String[] args) throws ParseException {
-        addDay(1);
+    public static void min(String[] args) throws ParseException {
+//        addDay(1);
         String str = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date());
         System.out.println(str);
         Calendar calendar = Calendar.getInstance();
@@ -98,11 +100,12 @@ public class CalendarUtil {
         System.out.println("时间比较：" + calendarNew.compareTo(calendar));
     }
 
-    public  static long  addDay(int amount){
+    @Test
+    public  void   addDay(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         Calendar calendar = Calendar.getInstance();
-//        System.out.println("currentTime="+calendar.getTimeInMillis());
-        calendar.add(Calendar.DATE,amount);
-//        System.out.println("day +1 ="+calendar.getTimeInMillis());
-        return calendar.getTimeInMillis();
+        System.out.println("currentTime="+format.format(new Date()));
+        calendar.add(Calendar.DATE,-1);
+        System.out.println("day -1 ="+format.format(calendar.getTime()));
     }
 }

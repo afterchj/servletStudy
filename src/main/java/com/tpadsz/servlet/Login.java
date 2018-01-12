@@ -21,7 +21,7 @@ public class Login extends HttpServlet {
             request.setAttribute("mess", "你好超级管理员！" + name);
         }
 
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("myIndex.html").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -8,13 +8,18 @@ import com.tpadsz.servlet.utils.mao.AESEncryptor;
 import com.tpadsz.servlet.utils.mao.Signature;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by hongjian.chen on 2017/8/31.
@@ -43,7 +48,6 @@ public class MyTest {
         CloseableHttpResponse response = httpclient.execute(httppost);
         HttpEntity entity = response.getEntity();
         if (entity != null) {
-            System.out.println(response.getStatusLine());
             System.out.println("--------------------------------------");
             System.out.println("Response content: " + EntityUtils.toString(entity, "UTF-8"));
             System.out.println("--------------------------------------");
@@ -97,4 +101,58 @@ public class MyTest {
 //            System.out.println(respContent);
         }
     }
+
+    @Test
+    public void testPrize() throws IOException {
+        String str = "{\"dataId\":\"12345\",\"uid\":\"b7d985b053974d788b6b97439615b4b5\",\"type\":\"1\",\"page\":\"0\"}";
+        String str1="{\"uid\":\"b7d985b053974d788b6b97439615b4b5\",\"dataId\":\"88888\",\"imei\":\"868017029140345\",\"channel\":\"ddz136\"}";
+//        String strs = "{\"dataId\":\"12345\",\"uid\":\"b7d985b053974d788b6b97439615b4b5\",\"imei\":\"868618027715515\",\"channel\":\"ddz136\"}";
+        String uri="http://localhost:8080/boss-locker/maiyou/getPrizeInfo.json";
+        String uri1="http://192.168.51.66:8080/boss-locker/douniu/list.json";
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(uri1);
+//        json方式
+        StringEntity entity1 = new StringEntity(str1, "utf-8");//解决中文乱码问题
+        entity1.setContentEncoding("UTF-8");
+//        entity1.setContentType("application/json");
+        httppost.setEntity(entity1);
+
+        CloseableHttpResponse response = httpclient.execute(httppost);
+        HttpEntity entity = response.getEntity();
+        System.out.println(response.getStatusLine());
+        System.out.println("--------------------------------------");
+        System.out.println("Response content: " + EntityUtils.toString(entity, "UTF-8"));
+        System.out.println("--------------------------------------");
+        response.close();
+        httpclient.close();
+    }
+
+    @Test
+    public void testPrizeList() throws IOException {
+        String uri="http://www.uichange.com/bosslocker-test/cpl/getPrizeInfo.json";
+        String uri1="http://localhost:8080/boss-locker/maiyou/list.json";
+        String url="http://localhost:8080/boss-locker/cpl/getPrizeInfo.json";
+        String url1="http://www.uichange.com/bosslocker-test/douniu/list.json";
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost(url);
+        //        表单方式
+        ArrayList formparams = new ArrayList();
+        formparams.add(new BasicNameValuePair("cplname", "maiyou"));
+        formparams.add(new BasicNameValuePair("uid", "b7d985b053974d788b6b97439615b4b5"));
+        formparams.add(new BasicNameValuePair("dataId", "12345"));
+        formparams.add(new BasicNameValuePair("imei", "868618027715515"));
+        formparams.add(new BasicNameValuePair("type", "3"));
+        formparams.add(new BasicNameValuePair("page", "1"));
+        UrlEncodedFormEntity uefEntity = new UrlEncodedFormEntity(formparams, "UTF-8");
+        httppost.setEntity(uefEntity);
+        CloseableHttpResponse response = httpclient.execute(httppost);
+        HttpEntity entity = response.getEntity();
+        System.out.println(response.getStatusLine());
+        System.out.println("--------------------------------------");
+        System.out.println("Response content: " + EntityUtils.toString(entity, "UTF-8"));
+        System.out.println("--------------------------------------");
+        response.close();
+        httpclient.close();
+    }
+
 }

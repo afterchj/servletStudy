@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tpadsz.servlet.dao.TaskDao;
 import com.tpadsz.servlet.entity.MaoTask;
-import com.tpadsz.servlet.utils.CalendarUtil;
 import com.tpadsz.servlet.utils.HttpClientUtil;
 import com.tpadsz.servlet.utils.MybatisUtil;
 import com.tpadsz.servlet.utils.mao.AESDecryptor;
@@ -37,7 +36,7 @@ public class HttpUtilTest {
         System.out.println("singn=" + sign);
         String msg = AESEncryptor.encrypt(contents, key);
         JSONObject object = new JSONObject();
-        object.put("clientId", "JW47a958c9901b92");
+        object.put("clientId", "JW47a96eadcd2dee");
         object.put("name", "getMewTasks");
 //        object.put("name", "userAuth");
         object.put("version", "1.0");
@@ -50,7 +49,7 @@ public class HttpUtilTest {
         String msg1 = AESDecryptor.decrypt(encryptMsg, key);
         String sign1 = Signature.signature(key + msg1 + key);
         System.out.println("验证签名 = " + sign1.equals(object1.getString("signature")));
-//        System.out.println("result:\n" + msg1);
+        System.out.println("result:\n" + object1);
         JSONArray jsonArray = JSON.parseArray(msg1);
         JSONObject object2 = (JSONObject) jsonArray.get(1);
         System.out.println("JSONObject=" + object2);
@@ -124,8 +123,8 @@ public class HttpUtilTest {
     @Test
     public void getMewTasks2() throws Exception {
         SqlSession session = MybatisUtil.getSession();
-        long start = CalendarUtil.addDay(-1);
-        long end = CalendarUtil.addDay(1);
+//        long start = CalendarUtil.addDay(-1);
+//        long end = CalendarUtil.addDay(1);
         JSONObject object = new JSONObject();
 //        object.put("start_time", start);
 //        object.put("end_time", end);

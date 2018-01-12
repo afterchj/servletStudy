@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tpadsz.servlet.dao.MaiyouDao">
+
+    <resultMap type="DMaiyouApp" id="standardMaiyouAppMap">
+        <id property="id" column="id" javaType="String" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" javaType="String" jdbcType="VARCHAR"/>
+        <result property="title" column="title" javaType="String" jdbcType="VARCHAR"/>
+        <result property="descr" column="descr" javaType="String" jdbcType="VARCHAR"/>
+        <result property="point" column="point" javaType="String" jdbcType="VARCHAR"/>
+        <result property="time" column="time" javaType="String" jdbcType="VARCHAR"/>
+        <result property="content" column="content" javaType="String" jdbcType="VARCHAR"/>
+        <result property="strategy" column="strategy" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap type="DMaiyouPrizeStep" id="standardMaiyouPrizeStepMap">
+        <id property="dataId" column="dataId" javaType="String" jdbcType="VARCHAR"/>
+        <result property="type" column="type" javaType="String" jdbcType="VARCHAR"/>
+        <result property="name" column="name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="isExtra" column="isExtra" javaType="String" jdbcType="VARCHAR"/>
+        <result property="stepName" column="stepName" javaType="String" jdbcType="VARCHAR"/>
+        <result property="point" column="point" javaType="String" jdbcType="VARCHAR"/>
+        <result property="stepNum" column="stepNum" javaType="String" jdbcType="VARCHAR"/>
+        <result property="value" column="value" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap type="DMaiyouPrizeStep" id="unionAuthInfo">
+        <id property="dataId" column="dataId" javaType="String" jdbcType="VARCHAR"/>
+        <result property="type" column="type" javaType="String" jdbcType="VARCHAR"/>
+        <result property="name" column="name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="isExtra" column="isExtra" javaType="String" jdbcType="VARCHAR"/>
+        <result property="stepName" column="stepName" javaType="String" jdbcType="VARCHAR"/>
+        <result property="point" column="point" javaType="String" jdbcType="VARCHAR"/>
+        <result property="stepNum" column="stepNum" javaType="String" jdbcType="VARCHAR"/>
+        <result property="value" column="value" javaType="String" jdbcType="VARCHAR"/>
+        <result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP"/>
+        <association property="info" javaType="AuthInfo">
+            <id property="dataId" column="dataId"/>
+            <result property="getCoinsType" column="getCoinsType"/>
+        </association>
+    </resultMap>
+
+    <sql id="completeApp_columns">
+        id, icon, title, descr,point,time,content,strategy,update_date
+    </sql>
+
+    <sql id="completePrize_columns">
+        type,name,isExtra,value
+    </sql>
+
+    <sql id="completePrizeStep_columns">
+       stepName,point,stepNum,update_date,type
+    </sql>
+
+    <select id="findMaiyouApp" resultMap="standardMaiyouAppMap" parameterType="String">
+         SELECT <include refid="completeApp_columns"/> FROM ctc_hq.f_task_cpl_app_desc m WHERE m.id=#{id}
+    </select>
+
+    <select id="findMaiyouPrize" resultMap="standardMaiyouPrizeStepMap" parameterType="String">
+        SELECT <include refid="completePrize_columns"/> FROM ctc_hq.f_task_cpl_prize_desc m WHERE m.dataId=#{dataId}  GROUP BY m.type ORDER BY m.type
+    </select>
+
+    <select id="findPrizeStep" resultMap="standardMaiyouPrizeStepMap" parameterType="Params">
+        SELECT <include refid="completePrizeStep_columns"/> FROM ctc_hq.f_task_cpl_prize_desc m WHERE m.dataId=#{dataId} and m.type=#{type} ORDER BY m.stepNum  LIMIT #{page},10
+    </select>
+
+    <select id="findPrizeStepByUid" resultType="String" parameterType="Params">
+        SELECT getCoinsType FROM ctc_hq.f_task_cpl_auth_info WHERE dataId=#{dataId} AND uid=#{uid}
+    </select>
+
+    <select id="findGetCoinsTypeByUser" resultType="String" parameterType="String">
+        SELECT getCoinsType FROM ctc_hq.f_task_cpl_auth_info m WHERE m.dataId=#{dataId} and m.account=#{account}
+    </select>
+
+</mapper>

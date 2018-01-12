@@ -8,7 +8,7 @@
         <!--<typeAlias alias="User" type="com.tpadsz.servlet.entity.User"/>-->
     </typeAliases>
 
-    <environments default="development">
+    <environments default="demo">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
@@ -28,12 +28,24 @@
                 <property name="password" value="ccy"/>
             </dataSource>
         </environment>
+
+        <environment id="demo">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://10.10.11.57:3306/ctc_hq?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true&amp;zeroDateTimeBehavior=convertToNull" />
+                <property name="username" value="tianping"/>
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
     </environments>
 
     <!-- mybatis的mapper文件，每个xml配置文件对应一个接口 -->
     <mappers>
+        <mapper resource="mapper/cpaAndGameLog.xml"/>
         <mapper resource="mapper/bossLocker.xml"/>
         <mapper resource="mapper/User.xml"/>
+        <mapper resource="mapper/DMaiyouMapper.xml"/>
         <mapper resource="mapper/maoTask.xml"/>
     </mappers>
 </configuration>
