@@ -28,18 +28,24 @@ public class logTest {
         String[] types = {"新快速", "游戏"};
         String[] files = {"/mnt/shared/bosslockerstore_hq/cpa/cpaLog-", "/mnt/shared/bosslockerstore_hq/game/gameLog-"};
         for (int i = 0; i < types.length; i++) {
-            System.out.println(types[i]);
-//            insertLogs(types[i], files[i]);
-            saveFile(types[i], files[i], 1);
+            Map map = new HashMap();
+            map.put("type", types[i]);
+            if (i == 0) {
+                map.put("ext", "inst");
+            }
+//            try {
+//                insertLogs(types[i], files[i], map);
+//            } catch (Exception e) {
+//                System.err.println(e.getCause());
+//            }
+            saveFile(map, files[i], 1);
         }
         System.out.println("结束执行定时任务...");
     }
 
-    public void insertLogs(String type, String fileName) {
+    public void insertLogs(String type, String fileName, Map map) throws Exception {
         String preFix = fileName.substring(fileName.lastIndexOf("/") + 1, fileName.length());
 //        System.out.println(fileName+"    "+preFix);
-        Map map = new HashMap();
-        map.put("type", type);
         List<CpaAndGameLog> list0 = session.getMapper(CpaAndGameDao.class).getTotalUser(map);
         List<CpaAndGameLog> list1 = session.getMapper(CpaAndGameDao.class).getNewUser(map);
         List<CpaAndGameLog> list2 = session.getMapper(CpaAndGameDao.class).getLogInfo(map);
@@ -59,29 +65,26 @@ public class logTest {
             }
             log.setExpendSum(list2.get(i).getExpendSum() / 1000);
             list.add(log);
-            System.out.println("logDate=" + format.format(list0.get(i).getLogDate()) + ",expendSum=" + list2.get(i).getExpendSum() / 1000);
+//            System.out.println("logDate=" + format.format(list0.get(i).getLogDate()) + ",expendSum=" + list2.get(i).getExpendSum() / 1000);
         }
-//        CpaAndGameLog log1;
+        CpaAndGameLog log1 = list.get(1);
 //        if (type.equals("新快速")) {
-//            log1 = list.get(1);
-//            session.getMapper(CpaAndGameDao.class).insertLog(log1);
-//            session.commit();
+//                session.getMapper(CpaAndGameDao.class).insertLog(log1);
+//                session.commit();
 //        }
-//        if (type.equals("游戏")) {
-//            log1=list.get(0);
-//            session.getMapper(CpaAndGameDao.class).insertLog(log1);
-//        }
+        if (type.equals("游戏")) {
+                session.getMapper(CpaAndGameDao.class).insertLog(log1);
+                session.commit();
+        }
 //        session.getMapper(CpaAndGameDao.class).insertLogs(list);
     }
 
-    public void saveFile(String type, String fileName, int offSet) {
+    public void saveFile(Map map, String fileName, int offSet) {
         for (int j = 1; j <= offSet; j++) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.DATE, -j);
             String suffix = format.format(calendar.getTime()) + ".xls";
 //            System.out.println(fileName + suffix);
-            Map map = new HashMap();
-            map.put("type", type);
             map.put("offSet", j);
             List<CpaAndGameLog> list3 = session.getMapper(CpaAndGameDao.class).getLogData(map);
             WritableWorkbook book = null;
@@ -91,7 +94,7 @@ public class logTest {
                 sheet.addCell(new Label(0, 0, "任务ID"));
                 sheet.addCell(new Label(1, 0, "任务名称"));
                 sheet.addCell(new Label(2, 0, "完成数量"));
-                for (int i = 1; i < list3.size(); i++) {
+                for (int i = 0; i < list3.size(); i++) {
                     sheet.addCell(new Label(0, i, list3.get(i).getDataId()));
                     sheet.addCell(new Label(1, i, list3.get(i).getDataName()));
                     sheet.addCell(new Number(2, i, list3.get(i).getTotal()));

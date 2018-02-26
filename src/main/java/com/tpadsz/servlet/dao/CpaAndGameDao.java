@@ -16,7 +16,7 @@ public interface CpaAndGameDao {
 
     void updateLog(CpaAndGameLog log);
 
-    void insertLog(CpaAndGameLog log);
+    void insertLog(CpaAndGameLog log)throws Exception;
 
     List<CpaAndGameLog> getLogInfo(Map map);
     List<CpaAndGameLog> getNewUser(Map map);

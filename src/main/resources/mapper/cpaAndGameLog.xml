@@ -16,68 +16,79 @@
 
     <select id="getLogInfo" resultType="CpaAndGameLog" parameterType="map">
         SELECT
-            COUNT(*) taskTotal,
-            SUM(gain) expendSum
+        COUNT(*) taskTotal,
+        SUM(gain) expendSum
         FROM
-            ctc_hq.log_task
+        ctc_hq.log_task
         WHERE
-            task_name =  #{type}
+        task_name = #{type}
+        <if test="ext != null and ext != ''">
+            AND ext= #{ext}
+        </if>
         AND result_code = '000'
         GROUP BY
-            DATE_FORMAT(create_date, '%Y-%m-%d')
+        DATE_FORMAT(create_date, '%Y-%m-%d')
         ORDER BY
-	        create_date DESC
+        create_date DESC
     </select>
 
     <select id="getNewUser" resultType="CpaAndGameLog" parameterType="map">
         SELECT
         COUNT(DISTINCT uid) newUser
         FROM
-            ctc_hq.log_task
+        ctc_hq.log_task
         WHERE
-            task_name = #{type}
+        task_name = #{type}
+        <if test="ext != null and ext != ''">
+            AND ext= #{ext}
+        </if>
         AND result_code = '000'
         AND uid IN (
         SELECT
-            uid
+        uid
         FROM
-            test.uid_log_date
+        test.uid_log_date
         WHERE
-            DATEDIFF(CURDATE(), log_date) &lt;=7
-            )
+        DATEDIFF(CURDATE(), log_date) &lt;=7
+        )
         GROUP BY DATE_FORMAT(create_date,'%Y-%m-%d')
         ORDER BY create_date DESC
     </select>
 
     <select id="getTotalUser" resultType="CpaAndGameLog" parameterType="map">
         SELECT
-            DATE_FORMAT(create_date, '%Y-%m-%d') logDate,
-            COUNT(DISTINCT uid) taskUser
+        DATE_FORMAT(create_date, '%Y-%m-%d') logDate,
+        COUNT(DISTINCT uid) taskUser
         FROM
-            ctc_hq.log_task
+        ctc_hq.log_task
         WHERE
-            task_name =#{type}
+        task_name =#{type}
+        <if test="ext != null and ext != ''">
+            AND ext= #{ext}
+        </if>
         AND result_code = '000'
         GROUP BY DATE_FORMAT(create_date,'%Y-%m-%d')
         ORDER BY create_date DESC
     </select>
 
     <select id="getLogData" resultType="CpaAndGameLog" parameterType="map">
-         SELECT
-            DATE_FORMAT(create_date, '%Y-%m-%d') logDate,
-            data_id dataId,
-            data_name dataName,
-            COUNT(*) total
+        SELECT
+        data_id dataId,
+        data_name dataName,
+        COUNT(*) total
         FROM
-            ctc_hq.log_task
+        ctc_hq.log_task
         WHERE
-            task_name = #{type}
+        task_name = #{type}
         AND result_code = '000'
-        AND DATEDIFF(CURDATE(), create_date) =#{offSet}
+        AND DATEDIFF(CURDATE(), create_date) = #{offSet}
+        <if test="ext != null and ext != ''">
+            AND ext= #{ext}
+        </if>
         GROUP BY
-            data_id
+        data_id
         ORDER BY
-	        total DESC;
+        total DESC;
     </select>
 
     <select id="getDataInfo" resultMap="logMap" parameterType="map">
@@ -113,7 +124,7 @@
 
 
     <insert id="insertLogs" parameterType="java.util.List">
-        insert into boss_locker_data.cpa_game_log(
+        insert ignore into boss_locker_data.cpa_game_log(
         task_type, log_date,
         new_user,task_user,
         task_total,expend_sum,
@@ -145,5 +156,6 @@
             )
         </foreach>
     </insert>
+
 
 </mapper>

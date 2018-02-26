@@ -8,6 +8,6 @@ import java.util.Date;
  */
 public class Job {
     public void execute(){
-        System.out.println("自动执行任务时间,"+new SimpleDateFormat("yyyy-MM-dd HH-mm:ss").format(new Date()));
+        System.out.println("自动执行任务时间,"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     }
 }

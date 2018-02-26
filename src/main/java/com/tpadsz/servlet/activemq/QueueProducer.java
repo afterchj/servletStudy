@@ -22,10 +22,11 @@ public class QueueProducer {
         jt.send(new MessageCreator() {
             // 消息的产生，返回消息发送消息
             public Message createMessage(Session s) throws JMSException {
-                TextMessage msg = s.createTextMessage("Spring send msg ----> Hello activeMQ3");
+                TextMessage msg = s.createTextMessage("Hello activeMQ3");
                 return msg;
             }
         });
         System.out.println("end!");
+//        System.exit(1);
     }
 }

@@ -8,10 +8,11 @@
 
 
     <!--第三方工厂,也是具体实现连接的 -->
+
     <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="tcp://192.168.51.80:61616"/>
-        <!--<property name="userName" value="admin"></property>-->
-        <!--<property name="password" value="admin"></property>-->
+        <property name="brokerURL" value="failover://tcp://192.168.51.80:61616"/>
+        <property name="userName" value="admin"></property>
+        <property name="password" value="admin"></property>
     </bean>
     <!-- ActiveMQ为我们提供了一个PooledConnectionFactory，通过往里面注入一个ActiveMQConnectionFactory
         可以用来将Connection、Session和MessageProducer池化，这样可以大大的减少我们的资源消耗,要依赖于 activemq-pool包 -->
@@ -28,7 +29,7 @@
 
     <!-- queue目的地配置 -->
     <bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
-        <constructor-arg index="0" value="hello-queue"/>
+        <constructor-arg index="0" value="hello-activeMQ3"/>
     </bean>
     <!-- topic目的地配置，其实不管是topic还是queue则他们的底层实现不同但是通过封装api就差不多了，而在spring中更是简单 -->
     <bean id="destinationTopic" class="org.apache.activemq.command.ActiveMQTopic">

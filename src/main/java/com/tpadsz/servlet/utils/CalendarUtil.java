@@ -19,21 +19,21 @@ public class CalendarUtil {
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d H:m:s");
             Date date = dateFormat.parse("2013-6-1 13:24:16");
-            System.out.println("dateFormat="+dateFormat.format(new Date()));
+            System.out.println("dateFormat=" + dateFormat.format(new Date()));
             calendar.setTime(date);
             str = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS")).format(calendar.getTime());
-            System.out.println("calendar.get()="+str);
+            System.out.println("calendar.get()=" + str);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         calendar = Calendar.getInstance();
         calendar.set(2013, 1, 2, 17, 35, 44);
         str = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS")).format(calendar.getTime());
-        System.out.println("calendar.set()="+str);
+        System.out.println("calendar.set()=" + str);
         calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         str = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS")).format(calendar.getTime());
-        System.out.println("currentDate="+str);
+        System.out.println("currentDate=" + str);
         int year = calendar.get(Calendar.YEAR);
         System.out.println("year is = " + String.valueOf(year));
 
@@ -56,11 +56,11 @@ public class CalendarUtil {
         // 3小时以后
         calendar.add(Calendar.HOUR_OF_DAY, 3);
         int HOUR_OF_DAY = calendar.get(Calendar.HOUR_OF_DAY);
-        System.out.println("HOUR_OF_DAY + 3 = " + HOUR_OF_DAY+",modifyDate = "+calendar.getTime());
+        System.out.println("HOUR_OF_DAY + 3 = " + HOUR_OF_DAY + ",modifyDate = " + calendar.getTime());
         // 1天以前
-        calendar.add(Calendar.DATE,1);
-        int temp=calendar.get(Calendar.DATE);
-        System.out.println("DAY + 1 = "+temp+",modifyDate = "+calendar.getTime());
+        calendar.add(Calendar.DATE, 1);
+        int temp = calendar.get(Calendar.DATE);
+        System.out.println("DAY + 1 = " + temp + ",modifyDate = " + calendar.getTime());
         // 当前分钟数
         int MINUTE = calendar.get(Calendar.MINUTE);
         System.out.println("MINUTE = " + MINUTE);
@@ -68,12 +68,12 @@ public class CalendarUtil {
         // 15 分钟以后
         calendar.add(Calendar.MINUTE, 15);
         MINUTE = calendar.get(Calendar.MINUTE);
-        System.out.println("MINUTE + 15 = " + MINUTE+",modifyDate = "+calendar.getTime());
+        System.out.println("MINUTE + 15 = " + MINUTE + ",modifyDate = " + calendar.getTime());
 
         // 30分钟前
         calendar.add(Calendar.MINUTE, -30);
         MINUTE = calendar.get(Calendar.MINUTE);
-        System.out.println("MINUTE - 30 = " + MINUTE+",modifyDate = "+calendar.getTime());
+        System.out.println("MINUTE - 30 = " + MINUTE + ",modifyDate = " + calendar.getTime());
 
         // 格式化显示
         str = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SS")).format(calendar.getTime());
@@ -101,11 +101,11 @@ public class CalendarUtil {
     }
 
     @Test
-    public  void   addDay(){
+    public void addDay() {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         Calendar calendar = Calendar.getInstance();
-        System.out.println("currentTime="+format.format(new Date()));
-        calendar.add(Calendar.DATE,-1);
-        System.out.println("day -1 ="+format.format(calendar.getTime()));
+        System.out.println("currentTime=" + format.format(new Date()));
+        calendar.add(Calendar.DATE, -1);
+        System.out.println("day -1 =" + format.format(calendar.getTime()));
     }
 }

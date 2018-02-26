@@ -31,7 +31,7 @@ public class HttpClientDemo {
             if (responseCode == 200) {
                 HttpEntity entity = response.getEntity();
                 String str = EntityUtils.toString(entity, "utf-8");
-                System.out.println("服务器的响应是:" + str);
+                System.out.println("服务器的响应是:" + str.trim());
             }
         } catch (IOException e) {
             System.out.println("响应失败!");
@@ -49,7 +49,7 @@ public class HttpClientDemo {
             response = httpclient.execute(httpPost);
             HttpEntity entity = response.getEntity();
             String str = EntityUtils.toString(entity, "utf-8");
-            System.out.println("服务器的响应是:" + str);
+            System.out.println("服务器的响应是:" + str.trim());
         } catch (IOException e) {
             System.out.println("响应失败!");
             e.printStackTrace();
