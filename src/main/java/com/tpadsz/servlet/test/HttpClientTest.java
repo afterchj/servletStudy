@@ -175,10 +175,11 @@ public class HttpClientTest {
         }
     }
 
+    @Test
     public void get() {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
-            HttpGet e = new HttpGet("http://www.baidu.com/");
+            HttpGet e = new HttpGet("http://localhost:8081/bossLocker-store/switch/getInfo");
             System.out.println("executing request " + e.getURI());
             CloseableHttpResponse response = httpclient.execute(e);
             try {

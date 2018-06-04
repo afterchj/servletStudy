@@ -95,9 +95,9 @@ public class logTest {
                 sheet.addCell(new Label(1, 0, "任务名称"));
                 sheet.addCell(new Label(2, 0, "完成数量"));
                 for (int i = 0; i < list3.size(); i++) {
-                    sheet.addCell(new Label(0, i, list3.get(i).getDataId()));
-                    sheet.addCell(new Label(1, i, list3.get(i).getDataName()));
-                    sheet.addCell(new Number(2, i, list3.get(i).getTotal()));
+                    sheet.addCell(new Label(0, i + 1, list3.get(i).getDataId()));
+                    sheet.addCell(new Label(1, i + 1, list3.get(i).getDataName()));
+                    sheet.addCell(new Number(2, i + 1, list3.get(i).getTotal()));
                 }
                 book.write();
             } catch (Exception e) {

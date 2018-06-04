@@ -48,7 +48,8 @@ public class HttpClientUtil {
 
     @Test
     public void testJson() {
-
+        String result = requePost("http://localhost:8081/bossLocker-store/switch/getInfo", null);
+        System.out.println(result);
     }
 
     @Test
@@ -57,7 +58,7 @@ public class HttpClientUtil {
         String url = "http://localhost:8080/boss-locker/maiyou/list";
         String url1 = "http://www.uichange.com/bosslocker-test/maiyou/list.json";
         String uri = "http://localhost:8080/ums3-client2/spfile/getChildrenTypes/pid4";
-        String uri1="http://www.uichange.com/bosslocker-test/cpl/getPrizeInfo.json";
+        String uri1 = "http://www.uichange.com/bosslocker-test/cpl/getPrizeInfo.json";
         PostMethod postMethod = new PostMethod(uri);
 //   填入各个表单域的值
         NameValuePair[] data = {//
