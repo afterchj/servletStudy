@@ -8,7 +8,7 @@ import javax.jms.*;
 
 public class ProducerApp {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProducerApp.class);
-    private static final String BROKER_URL ="failover://tcp://192.168.51.80:61616";
+    private static final String BROKER_URL ="failover://tcp://192.168.51.88:61616";
     private static final String SUBJECT = "myTest-activemq-queue";
 
     public static void main(String[] args) throws JMSException {

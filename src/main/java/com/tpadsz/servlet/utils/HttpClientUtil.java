@@ -2,17 +2,21 @@ package com.tpadsz.servlet.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Created by hongjian.chen on 2017/9/29.
@@ -46,11 +50,6 @@ public class HttpClientUtil {
         return result;
     }
 
-    @Test
-    public void testJson() {
-        String result = requePost("http://localhost:8081/bossLocker-store/switch/getInfo", null);
-        System.out.println(result);
-    }
 
     @Test
     public void testForm() throws Exception {
@@ -78,5 +77,50 @@ public class HttpClientUtil {
         System.out.println(result);
         br.close();
         in.close();
+    }
+
+    @Test
+    public void testJson() {
+        String contents = "{\"task_id\":\"29630\",\"auth_id\":\"1000375122\"}";
+
+        String result = requePost("http://localhost:8080/boss-locker/auth/user/saveKey.json", JSON.parseObject(contents));
+        System.out.println(result);
+    }
+
+    @Test
+    public void uploadFile() throws FileNotFoundException {
+        File file = new File("C:\\temp\\tool.png");
+        File file1 = new File("C:\\temp\\shopping.jpg");
+        HttpClient client = new HttpClient();
+        PostMethod filePost = new PostMethod("http://localhost:8080/web-ssm/file/upload2");
+//       MultipartPostMethod filePost = new MultipartPostMethod(msUrl);
+        // 若上传的文件比较大 , 可在此设置最大的连接超时时间
+        client.getHttpConnectionManager().getParams().setConnectionTimeout(8000);
+        try {
+            FilePart fp = new FilePart(file.getName(), file);
+            FilePart fp1 = new FilePart(file1.getName(), file1);
+            StringPart sp = new StringPart("comment", "this is test");
+            MultipartRequestEntity mrp = new MultipartRequestEntity(new Part[]{sp, fp, fp1}, filePost.getParams());
+            filePost.setRequestEntity(mrp);
+            //使用系统提供的默认的恢复策略
+            filePost.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+
+            int httpStat = client.executeMethod(filePost);
+
+            if (httpStat == HttpStatus.SC_OK) {
+                InputStream in = filePost.getResponseBodyAsStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                String result = new String(br.readLine().getBytes("utf-8"), "utf-8");
+                System.out.println("result=" + result);
+                br.close();
+                in.close();
+                System.out.println("UPLOAD FILE SUCCESS");
+            } else {
+                System.out.println("UPLOAD FILE FAILURE");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        filePost.releaseConnection();
     }
 }

@@ -66,9 +66,9 @@ public class HttpUtilTest {
     @Test
     public void userAuth() throws Exception{
         String contents = "{\"user_phone\":\"18170756879\",\"user_id\":\"125806879\"}";
-        JSONObject params = new JSONObject();
-        params.put("user_phone","18170756879");
-        params.put("user_id","125806879");
+//        JSONObject params = new JSONObject();
+//        params.put("user_phone","18170756879");
+//        params.put("user_id","125806879");
         String sign = Signature.signature(key + contents+ key);
         System.out.println("sign=" + sign);
         String msg = AESEncryptor.encrypt(contents, key);
