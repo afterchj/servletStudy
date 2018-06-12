@@ -21,12 +21,14 @@ public class Add extends HttpServlet {
         MyBatisTest test = new MyBatisTest();
         request.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
+        System.out.println("id==========》"+request.getParameter("id"));
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
         User user = new User();
         user.setName(name);
         user.setPwd(pwd);
         test.add();
+        out.print("success");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

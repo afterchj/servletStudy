@@ -17,6 +17,7 @@ public class Update extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
+        System.out.println("id==========》"+request.getParameter("id"));
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
         User user = new User();

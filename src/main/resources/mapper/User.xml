@@ -90,9 +90,11 @@
     <update id="updateUser" parameterType="User">
         update hongjianTest set name=#{name},pwd=#{pwd} where id=#{id}
     </update>
+
     <update id="update" parameterType="User">
         update t_user set is_delete=is_delete+1 where id=#{id}
     </update>
+
     <delete id="deleteUser" parameterType="String">
         delete from hongjianTest where id=#{id}
     </delete>
