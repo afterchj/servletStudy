@@ -15,11 +15,13 @@ public class Login extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         String name = request.getParameter("name");
         String pwd = request.getParameter("pwd");
+        System.out.println(name+"\t"+pwd);
         if (!name.equals("admin") && !pwd.equals("admin")) {
             request.setAttribute("mess", "欢迎用户，" + name);
         } else {
             request.setAttribute("mess", "你好超级管理员！" + name);
         }
+        response.getWriter().print("000");
 
         request.getRequestDispatcher("myIndex.html").forward(request, response);
     }

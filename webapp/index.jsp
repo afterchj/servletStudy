@@ -12,9 +12,12 @@
 </head>
 <body>
 this is a jsp page!
-<form action="login" method="post">
-    <p>name:<input name="name" type="text"></p>
-    <p>pwd:<input name="pwd" type="password"></p>
+<form action="uploadServlet" method="post" enctype="multipart/form-data">
+    <%--<p>name:<input name="name" type="text"></p>--%>
+    <%--<p>pwd:<input name="pwd" type="password"></p>--%>
+    <p>description:<input name="description" type="text"></p>
+    <p><input name="file" type="file"></p>
+
     <p><input type="submit" value="login">&nbsp;<input type="reset" value="reset"></p>
 </form>
 <a href="list">list</a>&nbsp;<a href="myIndex.html">edit</a>

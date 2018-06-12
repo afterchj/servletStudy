@@ -18,7 +18,7 @@
           class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="exampleJob2Detail"/>
         <!-- 每10秒运行一次 -->
-        <property name="cronExpression" value="5/15 * * * * ?"/>
+        <property name="cronExpression" value="* 36 13 * * ?"/>
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

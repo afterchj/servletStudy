@@ -275,7 +275,7 @@ public class HttpClientTest {
         //multipartEntityBuilder.addBinaryBody("file",file,ContentType.create("application/octet-stream"),"abd.pdf");
         multipartEntityBuilder.addBinaryBody("file", file);
         multipartEntityBuilder.addBinaryBody("file1", file1);
-        //multipartEntityBuilder.addPart("comment", new StringBody("This is comment", ContentType.TEXT_PLAIN));
+//        multipartEntityBuilder.addPart("comment", new StringBody("This is comment", ContentType.TEXT_PLAIN));
         multipartEntityBuilder.addTextBody("comment", "this is comment");
         HttpEntity httpEntity = multipartEntityBuilder.build();
         httpPost.setEntity(httpEntity);
