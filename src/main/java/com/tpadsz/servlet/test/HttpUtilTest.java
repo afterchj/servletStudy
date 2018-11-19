@@ -42,7 +42,7 @@ public class HttpUtilTest {
         object.put("version", "1.0");
         object.put("content", msg);
         object.put("signature", sign);
-        String result = HttpClientUtil.requePost(uri, object);
+        String result = HttpClientUtil.requestPost(uri, object);
 
         JSONObject object1 = JSON.parseObject(result);
         String encryptMsg = object1.getString("content");
@@ -78,7 +78,7 @@ public class HttpUtilTest {
         object.put("version", "1.0");
         object.put("content", msg);
         object.put("signature", sign);
-        String result = HttpClientUtil.requePost(uri, object);
+        String result = HttpClientUtil.requestPost(uri, object);
         System.out.println(result);
         JSONObject object1 = JSON.parseObject(result);
         String encryptMsg = object1.getString("content");
@@ -106,7 +106,7 @@ public class HttpUtilTest {
         object.put("version", "2.0");
         object.put("content", msg);
         object.put("signature", sign);
-        String result = HttpClientUtil.requePost(uri, object);
+        String result = HttpClientUtil.requestPost(uri, object);
         JSONObject object1 = JSON.parseObject(result);
         String encryptMsg = object1.getString("content");
         String msg1 = AESDecryptor.decrypt(encryptMsg, key);
@@ -140,7 +140,7 @@ public class HttpUtilTest {
         params.put("version", "2.0");
         params.put("content", msg);
         params.put("signature", sign);
-        String result = HttpClientUtil.requePost(uri, params);
+        String result = HttpClientUtil.requestPost(uri, params);
         JSONObject object1 = JSON.parseObject(result);
         String encryptMsg = object1.getString("content");
         String msg1 = AESDecryptor.decrypt(encryptMsg, key);
@@ -193,7 +193,7 @@ public class HttpUtilTest {
         object.put("version", "1.0");
         object.put("content", msg);
         object.put("signature", sign);
-        String result = HttpClientUtil.requePost(uri, object);
+        String result = HttpClientUtil.requestPost(uri, object);
         JSONObject object1 = JSON.parseObject(result);
         String encryptMsg = object1.getString("content");
         String msg1 = AESDecryptor.decrypt(encryptMsg, key);
