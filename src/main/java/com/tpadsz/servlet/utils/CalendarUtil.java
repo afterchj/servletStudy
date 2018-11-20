@@ -11,7 +11,12 @@ import java.util.Date;
  * Created by hongjian.chen on 2017/9/29.
  */
 public class CalendarUtil {
-    public static void min(String[] args) throws ParseException {
+
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static Calendar c = Calendar.getInstance();
+
+    @Test
+    public void showTime() throws ParseException {
 //        addDay(1);
         String str = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date());
         System.out.println(str);
@@ -102,10 +107,56 @@ public class CalendarUtil {
 
     @Test
     public void addDay() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        Calendar calendar = Calendar.getInstance();
-        System.out.println("currentTime=" + format.format(new Date()));
-        calendar.add(Calendar.DATE, -1);
-        System.out.println("day -1 =" + format.format(calendar.getTime()));
+//        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+//        Calendar calendar = Calendar.getInstance();
+//        System.out.println("currentTime=" + format.format(new Date()));
+//        calendar.add(Calendar.DATE, -1);
+//        System.out.println("day -1 =" + format.format(calendar.getTime()));
+        System.out.println(pastMinute());
+    }
+
+    public static String pastMinute() {
+        c.add(Calendar.MINUTE, 30);//30分钟后的时间
+        System.out.println("30分钟后的时间:" + format.format(c.getTime()));
+        Calendar nowTime2 = Calendar.getInstance();
+        nowTime2.add(Calendar.MINUTE, -30);//30分钟前的时间
+        System.out.println("30分钟前的时间:" + format.format(nowTime2.getTime()));
+        return format.format(nowTime2.getTime());
+    }
+
+    public static String pastWeek() {
+        //过去七天
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -7);
+        Date d = c.getTime();
+        String day = format.format(d);
+        System.out.println("过去一周：" + day);
+        return day;
+    }
+
+    public static String pastMonth() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+
+        //过去一月
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -1);
+        Date m = c.getTime();
+        String mon = format.format(m);
+        System.out.println("过去一个月：" + mon);
+        return mon;
+    }
+
+    public static String pastYear() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+
+        //过去一年
+        c.setTime(new Date());
+        c.add(Calendar.YEAR, -1);
+        Date y = c.getTime();
+        String year = format.format(y);
+        System.out.println("过去一年：" + year);
+        return year;
     }
 }

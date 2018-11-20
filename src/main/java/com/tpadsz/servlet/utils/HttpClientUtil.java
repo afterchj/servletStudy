@@ -1,7 +1,6 @@
 package com.tpadsz.servlet.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -14,49 +13,62 @@ import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by hongjian.chen on 2017/9/29.
  */
 public class HttpClientUtil {
 
-    public static String httpGet(String url) throws Exception {
+    public static String httpGet(String url, Map<String, String> para) throws Exception {
+
+        URIBuilder builder = new URIBuilder(url);
+        Set<String> set = para.keySet();
+        for (String key : set) {
+            builder.setParameter(key, para.get(key));
+        }
+
+        HttpGet request = new HttpGet(builder.build());
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(6000).setConnectTimeout(6000).setConnectionRequestTimeout(6000).build();
+        request.setConfig(requestConfig);
+        String uri = request.getURI().toString();
+        System.out.println(request.getURI().toString());
 
         /* 1 生成 HttpClinet 对象并设置参数 */
         HttpClient httpClient = new HttpClient();
         // 设置 Http 连接超时为5秒
         httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(5000);
-    /* 2 生成 GetMethod 对象并设置参数 */
-        GetMethod getMethod = new GetMethod(url);
+        /* 2 生成 GetMethod 对象并设置参数 */
+        GetMethod getMethod = new GetMethod(uri);
         // 设置 get 请求超时为 5 秒
         getMethod.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 5000);
         // 设置请求重试处理，用的是默认的重试处理：请求三次
         getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
         String response = "";
-    /* 3 执行 HTTP GET 请求 */
+        /* 3 执行 HTTP GET 请求 */
         try {
             int statusCode = httpClient.executeMethod(getMethod);
-      /* 4 判断访问的状态码 */
+        /* 4 判断访问的状态码 */
             if (statusCode != HttpStatus.SC_OK) {
                 System.err.println("请求出错: " + getMethod.getStatusLine());
             }
-      /* 5 处理 HTTP 响应内容 */
+        /* 5 处理 HTTP 响应内容 */
             // HTTP响应头部信息，这里简单打印
             Header[] headers = getMethod.getResponseHeaders();
-            for (Header h : headers)
-                System.out.println(h.getName() + "------------ " + h.getValue());
+//            for (Header h : headers) {
+//                System.out.println(h.getName() + "------------ " + h.getValue());
+//            }
             // 读取 HTTP 响应内容，这里简单打印网页内容
             byte[] responseBody = getMethod.getResponseBody();// 读取为字节数组
             response = new String(responseBody, "utf-8");
-            System.out.println("----------response:\n" + response);
             // 读取为 InputStream，在网页内容数据量大时候推荐使用
             // InputStream response = getMethod.getResponseBodyAsStream();
         } catch (HttpException e) {
@@ -68,7 +80,7 @@ public class HttpClientUtil {
             System.out.println("发生网络异常!");
             e.printStackTrace();
         } finally {
-      /* 6 .释放连接 */
+        /* 6 .释放连接 */
             getMethod.releaseConnection();
         }
         return response;
@@ -102,10 +114,15 @@ public class HttpClientUtil {
     }
 
     public static void main(String[] args) throws Exception {
-            String url = "http://localhost:8080/sort";
-            String ret = httpGet(url);
-            System.out.println(ret);
+        String url = "http://localhost:8080/q2";
+
+        Map<String, String> map = new HashMap();
+        map.put("name", "after");
+        map.put("address", "suzhou");
+        String ret = httpGet(url, map);
+        System.out.println("response:\n" + ret);
     }
+
     @Test
     public void testForm() throws Exception {
         HttpClient httpClient = new HttpClient();
