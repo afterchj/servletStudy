@@ -1,11 +1,7 @@
 package com.tpadsz.servlet.utils;
 
-import com.mysql.jdbc.Connection;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by hongjian.chen on 2017/9/14.
@@ -13,7 +9,7 @@ import java.sql.SQLException;
 public class DbMySql {
 
     public static int getTaskNum() {
-        int times=0;
+        int times = 0;
         Connection conn = null;
         ResultSet rs = null;
         PreparedStatement pstm = null;
@@ -26,7 +22,7 @@ public class DbMySql {
             pstm = conn.prepareStatement(sql);
             rs = pstm.executeQuery();
             if (rs.next()) {
-                times=rs.getInt(1);
+                times = rs.getInt(1);
                 System.out.println(rs.getInt(1));
             }
         } catch (Exception e) {
@@ -45,7 +41,43 @@ public class DbMySql {
         return times;
     }
 
+    //数据库连接对象
+    private static Connection conn = null;
+
+    private static String driver = "oracle.jdbc.driver.OracleDriver"; //驱动
+
+    private static String url = "jdbc:oracle:thin:@//122.112.229.195:1521/xe"; //连接字符串
+
+    private static String username = "root"; //用户名
+
+    private static String password = "root"; //密码
+
+
+    // 获得连接对象
+    private static synchronized Connection getConn() {
+        if (conn == null) {
+            try {
+                Class.forName(driver);
+                conn = DriverManager.getConnection(url, username, password);
+                String sql = "SELECT * FROM person ORDER BY age ASC";
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                ResultSet rs = pstm.executeQuery();
+                while (rs.next()) {
+//                    String times = rs.getString(1);
+                    System.out.println(rs.getString(1) + "\t" + rs.getString(2) + "\t" + rs.getInt(3));
+                }
+                System.out.println(conn);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return conn;
+    }
+
     public static void main(String[] args) {
-        getTaskNum();
+        getConn();
+//        getTaskNum();
     }
 }

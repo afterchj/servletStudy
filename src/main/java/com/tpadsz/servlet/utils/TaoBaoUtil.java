@@ -23,8 +23,8 @@ public class TaoBaoUtil {
     public static void main(String[] args) throws Exception {
 //        favoritesGet();
 //        System.out.println();
-//        favoritesItemGet();
-//        System.out.println();
+        favoritesItemGet();
+        System.out.println();
 //        urlEncode();
         Map map = new HashMap();
         map.put("vekey", CommonParam.VEKEY.getValue());
@@ -56,7 +56,7 @@ public class TaoBaoUtil {
         req.setPageSize(20L);
         req.setAdzoneId(44740840L);
         req.setUnid("3456");
-        req.setFavoritesId(18745394L);
+        req.setFavoritesId(18732551L);
         req.setPageNo(1L);
         req.setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick,shop_title,zk_final_price_wap,event_start_time,event_end_time,tk_rate,status,type");
         TbkUatmFavoritesItemGetResponse rsp = client.execute(req);
