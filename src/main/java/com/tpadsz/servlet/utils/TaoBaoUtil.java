@@ -7,9 +7,13 @@ import com.taobao.api.request.TbkUatmFavoritesGetRequest;
 import com.taobao.api.request.TbkUatmFavoritesItemGetRequest;
 import com.taobao.api.response.TbkUatmFavoritesGetResponse;
 import com.taobao.api.response.TbkUatmFavoritesItemGetResponse;
+import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,19 +27,21 @@ public class TaoBaoUtil {
     public static void main(String[] args) throws Exception {
 //        favoritesGet();
 //        System.out.println();
-        favoritesItemGet();
+//        favoritesItemGet();
         System.out.println();
 //        urlEncode();
         Map map = new HashMap();
         map.put("vekey", CommonParam.VEKEY.getValue());
         map.put("para", "556602244435");
         map.put("pid", "mm_43238250_191900396_54299000426");
+        map.put("notkl ", "1");
+        map.put("noshortlink  ", "1");
         String ret1 = HttpClientUtil.httpGet(CommonParam.VEHICPI.getValue(), map);
         map.put("start_time", "2018-10-25 19:48:24");
         map.put("span", "1200");
-        String ret2 = HttpClientUtil.httpGet(CommonParam.VEORDER.getValue(), map);
+//        String ret2 = HttpClientUtil.httpGet(CommonParam.VEORDER.getValue(), map);
         System.out.println("response1:\n" + ret1);
-        System.out.println("response2:\n" + ret2);
+//        System.out.println("response2:\n" + ret2);
     }
 
     public static void favoritesGet() throws ApiException {
@@ -67,5 +73,31 @@ public class TaoBaoUtil {
         String encode = "{\"itemNumId\":\"557691028742\"}";
         String urlEncode = URLEncoder.encode(encode, "utf-8");
         System.out.println(urlEncode);
+    }
+
+    public String formatKey(String uid) {
+        return String.format("pid_%s", uid);
+    }
+
+    @Test
+    public void test() throws ParseException {
+        int i = 0;
+        String key = formatKey("9de2725281b44136b04e474d85061151");
+        System.out.println(key);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date1 = format.parse("2018-11-23");
+        String dateTime = format.format(new Date());
+        Date date1 = format.parse(dateTime);
+        System.out.printf("年-月-日格式：%tF%n", date1);
+        //d的使用
+        System.out.printf("月/日/年格式：%tD%n", date1);
+        System.out.println("dateTime=" + dateTime);
+        for (; ;i++ ) {
+            if (i==20){
+                break;
+            }
+            System.out.println(i);
+        }
     }
 }

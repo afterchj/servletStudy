@@ -1,7 +1,5 @@
 package com.tpadsz.servlet.utils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -86,14 +84,14 @@ public class HttpClientUtil {
         return response;
     }
 
-    public static String requestPost(String uri, JSONObject params) {
+    public static String requestPost(String uri, String params) {
         String result = "";
         HttpClient httpClient = new HttpClient();
         PostMethod postMethod = new PostMethod(uri);
         InputStream in = null;
         BufferedReader br = null;
         try {
-            RequestEntity requestEntity = new StringRequestEntity(JSON.toJSONString(params), "application/json", "utf-8");
+            RequestEntity requestEntity = new StringRequestEntity(params, "application/json", "utf-8");
             postMethod.setRequestEntity(requestEntity);
             httpClient.executeMethod(postMethod);
             in = postMethod.getResponseBodyAsStream();
@@ -153,9 +151,9 @@ public class HttpClientUtil {
 
     @Test
     public void testJson() {
-        String contents = "{\"task_id\":\"29630\",\"auth_id\":\"1000375122\"}";
+        String contents = "{\"proName\":\"Plant Project Timing Test\",\"days\":26,\"itemDetail\":[{\"lightSet\":1,\"detailName\":\"Plant Project Test0\",\"sceneId\":22,\"days\":8,\"startTime\":\"6:00\",\"endTime\":\"18:00\",\"startDate\":\"2020-2-26\"},{\"lightSet\":1,\"detailName\":\"Plant Project Test1\",\"sceneId\":22,\"days\":8,\"startTime\":\"6:00\",\"endTime\":\"18:00\",\"startDate\":\"2020-3-5\"},{\"lightSet\":1,\"detailName\":\"Plant Project Test2\",\"sceneId\":22,\"days\":10,\"startTime\":\"6:00\",\"endTime\":\"18:00\",\"startDate\":\"2020-3-15\"}],\"meshId\":\"70348331\",\"itemSet\":1,\"startDate\":\"2020-2-26\",\"itemCount\":3}";
 
-        String result = requestPost("http://ctc-hq.tpadsz.com/blt_light/switch", JSON.parseObject(contents));
+        String result = requestPost("http://localhost:8080/central-console/uploadDataFromPlant", contents);
         System.out.println(result);
     }
 

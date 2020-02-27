@@ -212,12 +212,13 @@ public class HttpClientTest {
         CloseableHttpClient httpclient = HttpClients.createDefault();
 
         try {
-            HttpPost httppost = new HttpPost("http://localhost:8080/web-ssm/user/upload.do");
+            HttpPost httppost = new HttpPost("http://localhost:8080/blt_alink/pc/upload");
+//            HttpPost httppost = new HttpPost("http://localhost:8080/web-ssm/user/upload.do");
             RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(200000).setSocketTimeout(200000).build();
             httppost.setConfig(requestConfig);
             FileBody bin = new FileBody(new File("C:\\temp\\car.jpg"));
             StringBody comment = new StringBody("A binary file of some kind", ContentType.TEXT_PLAIN);
-            HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("file", bin).addPart("comment", comment).build();
+            HttpEntity reqEntity = MultipartEntityBuilder.create().addPart("file", bin).addPart("params", comment).build();
             httppost.setEntity(reqEntity);
             System.out.println("executing request " + httppost.getRequestLine());
             CloseableHttpResponse response = httpclient.execute(httppost);
